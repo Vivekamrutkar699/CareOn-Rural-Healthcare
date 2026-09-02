@@ -1,0 +1,135 @@
+<div class="container py-4">
+
+    <div class="mb-4">
+        <h1>Telemedicine</h1>
+        <p class="text-muted">
+            Connect patients with healthcare professionals remotely.
+        </p>
+    </div>
+
+    <!-- Consultation Options -->
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-6">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h3>Video Consultation</h3>
+
+                    <p class="text-muted">
+                        Consult with a healthcare professional through
+                        a secure remote consultation.
+                    </p>
+
+                    <button
+                        class="btn btn-primary"
+                        id="videoConsultationBtn"
+                    >
+                        Start Consultation
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-6">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h3>Upcoming Appointments</h3>
+
+                    <p class="text-muted">
+                        Your scheduled healthcare consultations will
+                        appear here.
+                    </p>
+
+                    <div class="alert alert-light border">
+                        No upcoming appointments.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- How It Works -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h3>How Telemedicine Works</h3>
+
+            <div class="row mt-3">
+
+                <div class="col-md-4">
+                    <h5>1. Book</h5>
+                    <p class="text-muted">
+                        Schedule a consultation with a healthcare
+                        professional.
+                    </p>
+                </div>
+
+                <div class="col-md-4">
+                    <h5>2. Connect</h5>
+                    <p class="text-muted">
+                        Join the consultation remotely at the scheduled
+                        time.
+                    </p>
+                </div>
+
+                <div class="col-md-4">
+                    <h5>3. Consult</h5>
+                    <p class="text-muted">
+                        Discuss symptoms and health concerns with the
+                        healthcare professional.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Temporary Consultation Area -->
+
+    <div
+        id="consultationMessage"
+        class="alert alert-info mt-4"
+        style="display: none;"
+    >
+    </div>
+
+</div>
+
+
+<script>
+
+document
+    .getElementById("videoConsultationBtn")
+    .addEventListener("click", function () {
+
+        const message =
+            document.getElementById("consultationMessage");
+
+        message.style.display = "block";
+
+        message.textContent =
+            "Video consultation functionality will be connected after appointment and authentication modules are implemented.";
+
+    });
+
+</script>

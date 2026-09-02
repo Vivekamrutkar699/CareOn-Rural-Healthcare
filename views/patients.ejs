@@ -1,0 +1,74 @@
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1>Patient Management</h1>
+            <p class="text-muted">
+                Manage patient information and healthcare records.
+            </p>
+        </div>
+
+        <button class="btn btn-primary">
+            + Add Patient
+        </button>
+    </div>
+
+    <!-- Search -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            <label for="patientSearch" class="form-label">
+                Search Patients
+            </label>
+
+            <input
+                type="text"
+                id="patientSearch"
+                class="form-control"
+                placeholder="Search by patient name or phone number..."
+            >
+
+        </div>
+    </div>
+
+    <!-- Patient Table -->
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h4 class="mb-3">Registered Patients</h4>
+
+            <div class="table-responsive">
+
+                <table class="table table-hover">
+
+                    <thead>
+                        <tr>
+                            <th>Patient ID</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Phone</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="patientTableBody">
+
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">
+                                No patients registered yet.
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

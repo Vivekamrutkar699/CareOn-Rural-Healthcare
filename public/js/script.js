@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('PrepAI Frontend Loaded');
+    console.log('CareOn Frontend Loaded');
 
     const navLinks = document.querySelectorAll('.nav-links a');
 

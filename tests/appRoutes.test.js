@@ -1,43 +1,52 @@
-const request = require('supertest');
-const express = require('express');
-const app = require('../server'); // Import the server
+const request = require("supertest");
+const app = require("../server");
 
-describe('App Routes', () => {
-    it('should render the home page', async () => {
-        const res = await request(app).get('/');
-        expect(res.statusCode).toEqual(200);
-        expect(res.text).toContain('PrepAI - Home');
+describe("CareOn App Routes", () => {
+    test("GET / should return homepage", async () => {
+        const res = await request(app).get("/");
+
+        expect(res.statusCode).toBe(200);
+        expect(res.text).toContain("CareOn");
     });
 
-    it('should render the doubt solver page', async () => {
-        const res = await request(app).get('/doubt');
-        expect(res.statusCode).toEqual(200);
-        expect(res.text).toContain('Snap & Solve Doubt Tutor');
+    test("GET /dashboard should return dashboard", async () => {
+        const res = await request(app).get("/dashboard");
+
+        expect(res.statusCode).toBe(200);
+        expect(res.text).toContain("Dashboard");
     });
 
-    it('should handle image upload and process with Gemini', async () => {
-        const res = await request(app)
-            .post('/solve-doubt')
-            .attach('doubtImage', 'path/to/sample/image.jpg'); // Replace with a valid image path
-        expect(res.statusCode).toEqual(200);
-        expect(res.text).toContain('Snap & Solve - Solution');
+    test("GET /patients should return patients page", async () => {
+        const res = await request(app).get("/patients");
+
+        expect(res.statusCode).toBe(200);
+        expect(res.text).toContain("Patients");
     });
 
-    it('should render the generator page', async () => {
-        const res = await request(app).get('/generator');
-        expect(res.statusCode).toEqual(200);
-        expect(res.text).toContain('Infinite Question Generator');
+    test("GET /telemedicine should return telemedicine page", async () => {
+        const res = await request(app).get("/telemedicine");
+
+        expect(res.statusCode).toBe(200);
+        expect(res.text).toContain("Telemedicine");
     });
 
-    it('should render the revision page', async () => {
-        const res = await request(app).get('/revision');
-        expect(res.statusCode).toEqual(200);
-        expect(res.text).toContain('AI Revision & Mnemonics Tool');
+    test("GET /ai-assistant should return AI assistant page", async () => {
+        const res = await request(app).get("/ai-assistant");
+
+        expect(res.statusCode).toBe(200);
+        expect(res.text).toContain("AI Assistant");
     });
 
-    it('should render the test page', async () => {
-        const res = await request(app).get('/test');
-        expect(res.statusCode).toEqual(200);
-        expect(res.text).toContain('AI-Powered Mock Test');
+    test("GET /medicine should return medicine page", async () => {
+        const res = await request(app).get("/medicine");
+
+        expect(res.statusCode).toBe(200);
+        expect(res.text).toContain("Medicine");
+    });
+
+    test("GET unknown route should return 404", async () => {
+        const res = await request(app).get("/this-route-does-not-exist");
+
+        expect(res.statusCode).toBe(404);
     });
 });

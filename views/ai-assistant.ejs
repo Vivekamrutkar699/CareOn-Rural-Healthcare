@@ -1,0 +1,230 @@
+<div class="container py-4">
+
+    <div class="mb-4">
+        <h1>AI Health Assistant</h1>
+        <p class="text-muted">
+            Use AI to understand health images and medical reports.
+        </p>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Skin Analysis -->
+        <div class="col-md-6">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h3>Skin Image Analysis</h3>
+
+                    <p class="text-muted">
+                        Upload an image of a visible skin condition
+                        for an AI-assisted explanation.
+                    </p>
+
+                    <form
+                        id="skinAnalysisForm"
+                        enctype="multipart/form-data"
+                    >
+
+                        <input
+                            type="file"
+                            name="healthImage"
+                            id="skinImage"
+                            class="form-control mb-3"
+                            accept="image/*"
+                            required
+                        >
+
+                        <input
+                            type="hidden"
+                            name="analysisType"
+                            value="skin"
+                        >
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        >
+                            Analyze Image
+                        </button>
+
+                    </form>
+
+                    <div
+                        id="skinResult"
+                        class="mt-4"
+                        style="display: none;"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Medical Report -->
+        <div class="col-md-6">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h3>Medical Report Analysis</h3>
+
+                    <p class="text-muted">
+                        Upload a medical report to get a
+                        simple AI-generated explanation.
+                    </p>
+
+                    <form
+                        id="reportAnalysisForm"
+                        enctype="multipart/form-data"
+                    >
+
+                        <input
+                            type="file"
+                            name="healthImage"
+                            id="reportImage"
+                            class="form-control mb-3"
+                            accept="image/*"
+                            required
+                        >
+
+                        <input
+                            type="hidden"
+                            name="analysisType"
+                            value="report"
+                        >
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        >
+                            Analyze Report
+                        </button>
+
+                    </form>
+
+                    <div
+                        id="reportResult"
+                        class="mt-4"
+                        style="display: none;"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Disclaimer -->
+
+    <div class="alert alert-warning mt-4">
+
+        <strong>Important:</strong>
+
+        AI-generated information is for educational purposes only.
+        It is not a medical diagnosis and should not replace advice
+        from a qualified healthcare professional.
+
+    </div>
+
+</div>
+
+
+<script>
+
+async function analyzeHealthImage(form, resultElement) {
+
+    const formData = new FormData(form);
+
+    resultElement.style.display = "block";
+    resultElement.innerHTML = `
+        <div class="alert alert-info">
+            Analyzing image... Please wait.
+        </div>
+    `;
+
+    try {
+
+        const response = await fetch("/analyze-health-image", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+
+            throw new Error(
+                data.error || "Unable to analyze the image."
+            );
+
+        }
+
+        resultElement.innerHTML = `
+            <div class="alert alert-light border">
+                <h5>AI Analysis</h5>
+                <div style="white-space: pre-wrap;">
+                    ${escapeHtml(data.analysis)}
+                </div>
+            </div>
+        `;
+
+    } catch (error) {
+
+        console.error(error);
+
+        resultElement.innerHTML = `
+            <div class="alert alert-danger">
+                ${escapeHtml(error.message)}
+            </div>
+        `;
+    }
+}
+
+
+function escapeHtml(text) {
+
+    const div = document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+}
+
+
+document
+    .getElementById("skinAnalysisForm")
+    .addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        analyzeHealthImage(
+            this,
+            document.getElementById("skinResult")
+        );
+
+    });
+
+
+document
+    .getElementById("reportAnalysisForm")
+    .addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        analyzeHealthImage(
+            this,
+            document.getElementById("reportResult")
+        );
+
+    });
+
+</script>

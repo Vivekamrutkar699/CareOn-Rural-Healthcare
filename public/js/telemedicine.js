@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (now >= startTime && now <= endTime) {
                 // --- STATE 1: ACTIVE ---
                 // The call is within the active window.
-                link.href = `/revision`; // Set the correct URL to /revision
+                link.href = `/telemedicine`;
                 link.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed', 'bg-red-100', 'text-red-700');
                 link.classList.add('bg-green-500', 'text-white', 'hover:bg-green-600', 'shadow');
                 link.innerHTML = `<i class="fa-solid fa-video mr-2"></i> Start Video Chat`;
