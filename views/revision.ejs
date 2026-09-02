@@ -1,0 +1,101 @@
+<% layout = 'layout/boilerplate' %>
+
+<main class="w-full h-[calc(100vh-100px)] flex flex-col items-center justify-center p-4">
+    <!-- Enter Meeting Code Section -->
+    <div id="join-section" class="w-full max-w-md bg-white p-6 rounded-lg shadow-lg border border-gray-200 mb-4">
+        <h2 class="text-xl font-semibold text-gray-700 mb-3 text-center">Join a Video Call</h2>
+        <label for="meeting-code" class="block text-gray-600 mb-1">Enter Meeting Code:</label>
+        <input 
+            id="meeting-code" 
+            type="text" 
+            placeholder="e.g., Arogya123" 
+            class="w-full border border-gray-300 rounded-md p-2 mb-3 focus:ring-2 focus:ring-blue-500 outline-none"
+        />
+        <button 
+            id="join-btn"
+            class="w-full bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 transition">
+            Join Meeting
+        </button>
+    </div>
+
+    <!-- Jitsi Meet Video Container -->
+    <div id="video-section" class="hidden w-full h-[80vh] flex flex-col items-center">
+        <div id="meet" class="w-full h-full rounded-lg shadow-2xl border border-gray-300"></div>
+
+        <div class="mt-3 text-center">
+            <p id="call-status" class="text-gray-600 font-medium">Connecting to the secure video call...</p>
+        </div>
+    </div>
+</main>
+
+<!-- Jitsi Meet Script -->
+<script src='https://meet.jit.si/external_api.js'></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const joinSection = document.getElementById('join-section');
+        const videoSection = document.getElementById('video-section');
+        const joinButton = document.getElementById('join-btn');
+        const codeInput = document.getElementById('meeting-code');
+        const meetContainer = document.getElementById('meet');
+        const statusElement = document.getElementById('call-status');
+
+        let api = null;
+
+        joinButton.addEventListener('click', () => {
+            const roomName = codeInput.value.trim();
+            if (!roomName) {
+                alert('⚠️ Please enter a valid meeting code.');
+                return;
+            }
+
+            // Hide join UI and show video section
+            joinSection.classList.add('hidden');
+            videoSection.classList.remove('hidden');
+
+            // Initialize Jitsi Meet
+            const domain = 'meet.jit.si';
+            const options = {
+                roomName: roomName,
+                width: '100%',
+                height: '100%',
+                parentNode: meetContainer,
+                configOverwrite: {
+                    prejoinPageEnabled: false,
+                    startWithAudioMuted: false,
+                    startWithVideoMuted: false,
+                    toolbarButtons: [
+                        'microphone', 'camera', 'desktop', 'fullscreen',
+                        'hangup', 'profile', 'chat', 'settings', 'tileview'
+                    ],
+                },
+                interfaceConfigOverwrite: {
+                    SHOW_JITSI_WATERMARK: false,
+                    SHOW_WATERMARK_FOR_GUESTS: false,
+                    SHOW_BRAND_WATERMARK: false,
+                },
+                userInfo: {
+                    displayName: 'Dr. Ravi'
+                }
+            };
+
+            try {
+                api = new JitsiMeetExternalAPI(domain, options);
+
+                api.addEventListener('videoConferenceJoined', () => {
+                    statusElement.textContent = `✅ Connected to meeting: ${roomName}`;
+                    statusElement.classList.add('text-green-600');
+                });
+
+                api.addEventListener('readyToClose', () => {
+                    window.location.href = '/telemedicine';
+                });
+            } catch (error) {
+                console.error('Jitsi Initialization Error:', error);
+                statusElement.textContent = '❌ Failed to load video call. Please try again.';
+                statusElement.classList.add('text-red-600', 'font-bold');
+                meetContainer.style.display = 'none';
+            }
+        });
+    });
+</script>

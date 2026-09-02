@@ -1,0 +1,383 @@
+<% layout = 'layout/boilerplate' %>
+
+<!-- Header Section -->
+<header class="text-center mb-12">
+    <h1 class="text-4xl md:text-5xl font-bold text-gray-800">Community Health Connect</h1>
+    <p class="text-gray-600 mt-3 max-w-3xl mx-auto">Find your local ASHA health worker and connect with organizations dedicated to improving rural healthcare.</p>
+</header>
+
+<!-- NEW: ASHA Worker Information Section -->
+<section class="mb-16">
+    <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <!-- Left Column: Information -->
+            <div>
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">The ASHA Worker: Our Community's Healthline</h2>
+                <p class="text-gray-600 mb-4">An Accredited Social Health Activist (ASHA) is a trained female community health worker who acts as the first point of contact for any health-related needs in her village. Selected from the community and accountable to it, she is the backbone of India's rural healthcare system.</p>
+                <ul class="list-disc list-inside text-gray-600 space-y-2">
+                    <li>Provides maternal and child health services, including antenatal care and immunization.</li>
+                    <li>Offers counseling on nutrition, family planning, and basic sanitation.</li>
+                    <li>Acts as a depot for essential medicines and contraceptives.</li>
+                    <li>Mobilizes the community for health awareness programs.</li>
+                </ul>
+            </div>
+            <!-- Right Column: Image Slider -->
+            <div id="asha-slider" class="relative w-full h-80 rounded-lg overflow-hidden shadow-md">
+                <!-- Slides -->
+                <div class="slide absolute w-full h-full transition-opacity duration-700 ease-in-out">
+                    <img src="https://drreddysfoundation.org/wp-content/uploads/2022/12/ArticlesBlog-pictures_ASHAs.jpg" class="w-full h-full object-cover" alt="ASHA worker checking blood pressure">
+                </div>
+                <div class="slide absolute w-full h-full transition-opacity duration-700 ease-in-out opacity-0">
+                    <img src="https://th-i.thgim.com/public/news/cities/bangalore/dpiq7g/article31428114.ece/alternates/FREE_1200/25BGASHAWORKERSP2" class="w-full h-full object-cover" alt="ASHA worker counseling a group of women">
+                </div>
+                <div class="slide absolute w-full h-full transition-opacity duration-700 ease-in-out opacity-0">
+                    <img src="https://media.assettype.com/tnm/import/sites/default/files/ASHA_worker_vaccine_children_1200_PTI_23052022-compressed.jpg?w=1200&h=675&auto=format%2Ccompress&fit=max&enlarge=true" class="w-full h-full object-cover" alt="Rural vaccination camp">
+                </div>
+                <div class="slide absolute w-full h-full transition-opacity duration-700 ease-in-out opacity-0">
+                    <img src="https://asha-india.org/wp-content/uploads/2022/05/272848725_4842299522525409_7601443845135435100_n.jpg" class="w-full h-full object-cover" alt="Health worker taking notes in a village">
+                </div>
+                <div class="slide absolute w-full h-full transition-opacity duration-700 ease-in-out opacity-0">
+                    <img src="https://guprojects.gitam.edu/alladminpanels/institutes_cms/assets/uploads/1683103778_gallery.jpg" class="w-full h-full object-cover" alt="Doctor consulting with a patient in a rural setting">
+                </div>
+                <!-- Navigation Buttons -->
+                <button id="prev-slide" class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black bg-opacity-40 text-white p-2 rounded-full hover:bg-opacity-60 transition"><i class="fa-solid fa-chevron-left"></i></button>
+                <button id="next-slide" class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black bg-opacity-40 text-white p-2 rounded-full hover:bg-opacity-60 transition"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- "Find My ASHA" Section -->
+<section class="mb-16">
+    <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
+        <h2 class="text-3xl font-bold text-gray-800 text-center mb-6">Find Your Local ASHA Worker</h2>
+        
+        <!-- Search Controls -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <select id="state-select" class="p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
+                <option value="">-- Select State --</option>
+                <option value="Maharashtra">Maharashtra</option>
+            </select>
+            <select id="district-select" class="p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" disabled>
+                <option value="">-- Select District --</option>
+            </select>
+            <select id="block-select" class="p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" disabled>
+                <option value="">-- Select Block --</option>
+            </select>
+            <input id="village-search" type="text" placeholder="Search by Village/Ward..." class="p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 md:col-span-1" disabled>
+        </div>
+        <div class="text-center">
+             <button id="search-btn" class="bg-blue-600 text-white font-semibold py-3 px-8 rounded-lg hover:bg-blue-700 transition">Search</button>
+             <button id="near-me-btn" class="ml-4 bg-gray-200 text-gray-700 font-semibold py-3 px-8 rounded-lg hover:bg-gray-300 transition"><i class="fa-solid fa-location-crosshairs mr-2"></i>Near Me</button>
+        </div>
+
+        <!-- ASHA Results -->
+        <div id="asha-results-container" class="mt-8">
+            <!-- ASHA profile cards will be inserted here by JavaScript -->
+        </div>
+    </div>
+</section>
+
+<!-- "Our Partners" Section -->
+<section>
+    <h2 class="text-3xl font-bold text-gray-800 text-center mb-8">Our Partners in Rural Healthcare</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Card 1: Basic Healthcare Services -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 border flex flex-col">
+            <img class="w-full h-52 object-cover" src="https://bhs.org.in/wp-content/uploads/2021/03/cropped-bhs-logo_compressed-scaled.jpg" alt="A doctor checking a child's health in a rural village">
+            <div class="p-6 flex flex-col flex-grow">
+                <h2 class="text-xl font-bold text-gray-800 mb-2">Basic Healthcare Services</h2>
+                <p class="text-gray-600 text-sm mb-4 flex-grow">Basic Healthcare Services (BHS) is a non-profit organization that provides affordable and quality primary healthcare to low-income communities in remote rural areas. By establishing clinics run by nurses and community health workers, they diagnose and treat common illnesses, offer maternal and child health services, and manage chronic conditions. Their model focuses on creating a sustainable, low-cost ecosystem that bridges the last-mile gap in healthcare, ensuring that even the most vulnerable populations have access to the care they need.</p>
+                <a href="https://basichealthcareservices.org/" target="_blank" rel="noopener noreferrer" class="inline-block bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-blue-700 transition text-center">
+                    Visit Website
+                </a>
+                <div class="mt-3 text-center text-xs text-gray-500">
+                    <p>info@bhs.org | +91-987-654-3210</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2: Aravind Eye Care System -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 border flex flex-col">
+            <img class="w-full h-52 object-cover" src="https://aravind.org/wp-content/uploads/2024/01/AECS_logo.jpg" alt="An elderly person getting an eye check-up">
+            <div class="p-6 flex flex-col flex-grow">
+                <h2 class="text-xl font-bold text-gray-800 mb-2">Aravind Eye Care System</h2>
+                <p class="text-gray-600 text-sm mb-4 flex-grow">Aravind Eye Care System is a world-renowned organization with a mission to eliminate needless blindness. They have developed a high-volume, high-quality, and cost-effective service delivery model. A key component of their outreach is conducting free eye screening camps in rural villages, identifying patients with cataracts and other eye ailments. These patients are then transported to their base hospitals for affordable or free surgeries, ensuring that quality eye care is accessible to everyone, regardless of their ability to pay.</p>
+                <a href="https://aravind.org/" target="_blank" rel="noopener noreferrer" class="inline-block bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-blue-700 transition text-center">
+                    Visit Website
+                </a>
+                 <div class="mt-3 text-center text-xs text-gray-500">
+                    <p>info@aravind.org | +91-987-654-3211</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3: Foundation for Medical Research -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 border flex flex-col">
+            <img class="w-full h-52 object-cover" src="https://fmrindia.org/images/fmr-new2.png" alt="A scientist looking through a microscope in a lab">
+            <div class="p-6 flex flex-col flex-grow">
+                <h2 class="text-xl font-bold text-gray-800 mb-2">Foundation for Medical Research</h2>
+                <p class="text-gray-600 text-sm mb-4 flex-grow">The Foundation for Medical Research (FMR) focuses on critical public health challenges such as tuberculosis, leprosy, and other infectious diseases that disproportionately affect underserved communities. They combine advanced biomedical research with on-the-ground community-based interventions. FMR's work includes developing better diagnostic methods, promoting treatment adherence, and understanding disease transmission in rural and urban slums, directly translating scientific findings into practical public health solutions.</p>
+                <a href="https://fmrindia.org/" target="_blank" rel="noopener noreferrer" class="inline-block bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-blue-700 transition text-center">
+                    Visit Website
+                </a>
+                 <div class="mt-3 text-center text-xs text-gray-500">
+                    <p>info@fmrindia.org | +91-987-654-3212</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 4: Swasthya Swaraj -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 border flex flex-col">
+            <img class="w-full h-52 object-cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQc0Lf1dEf8G6IZHzyFkoPX_lRGfquPJ8-iMA&s" alt="A health worker talking to a tribal community">
+            <div class="p-6 flex flex-col flex-grow">
+                <h2 class="text-xl font-bold text-gray-800 mb-2">Swasthya Swaraj</h2>
+                <p class="text-gray-600 text-sm mb-4 flex-grow">Swasthya Swaraj is dedicated to providing comprehensive and compassionate healthcare to the tribal communities in the remote Kalahandi region of Odisha. Their approach is rooted in social justice, aiming to build a health system that is owned and managed by the community itself. They operate health centers, run mobile medical units, and train local tribal youth as health workers and nurses, empowering them to serve their own people and create a sustainable model of primary healthcare in one of India's most challenging regions.</p>
+                <a href="https://swasthyaswaraj.org/" target="_blank" rel="noopener noreferrer" class="inline-block bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-blue-700 transition text-center">
+                    Visit Website
+                </a>
+                 <div class="mt-3 text-center text-xs text-gray-500">
+                    <p>info@swaraj.org | +91-987-654-3213</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Card 5: SEARCH, Gadchiroli -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 border flex flex-col">
+            <img class="w-full h-52 object-cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1UXlPjZ_h4UuI_uI3xv0DPqcwfJhPxSdniw&s" alt="A mother holding her newborn baby">
+            <div class="p-6 flex flex-col flex-grow">
+                <h2 class="text-xl font-bold text-gray-800 mb-2">SEARCH, Gadchiroli</h2>
+                <p class="text-gray-600 text-sm mb-4 flex-grow">The Society for Education, Action and Research in Community Health (SEARCH) is a pioneering organization based in the tribal district of Gadchiroli, Maharashtra. It is globally recognized for its groundbreaking research and community-based health interventions, most notably the home-based newborn care model that dramatically reduced infant mortality rates. SEARCH combines rigorous research with direct action, addressing major health issues like pneumonia, reproductive health, and non-communicable diseases through a people-centric approach.</p>
+                <a href="https://search.org.in/" target="_blank" rel="noopener noreferrer" class="inline-block bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-blue-700 transition text-center">
+                    Visit Website
+                </a>
+                 <div class="mt-3 text-center text-xs text-gray-500">
+                    <p>info@search.org.in | +91-987-654-3214</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 6: Antara Foundation -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 border flex flex-col">
+            <img class="w-full h-52 object-cover" src="https://antarafoundation.org/wp-content/uploads/2023/05/antara_blog_dummy_image.jpg" alt="A frontline health worker with a group of mothers">
+            <div class="p-6 flex flex-col flex-grow">
+                <h2 class="text-xl font-bold text-gray-800 mb-2">Antara Foundation</h2>
+                <p class="text-gray-600 text-sm mb-4 flex-grow">Antara Foundation works on improving maternal and child health outcomes by strengthening the public health delivery system from the ground up. Their core strategy involves intensive training and mentorship of frontline health workers, such as ASHAs and Anganwadi workers, to enhance their skills and motivation. By focusing on simple, evidence-based interventions and improving the quality of service delivery, they have made a significant impact on reducing maternal and infant mortality in rural parts of Rajasthan and Madhya Pradesh.</p>
+                <a href="https://www.antara-foundation.org/" target="_blank" rel="noopener noreferrer" class="inline-block bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-blue-700 transition text-center">
+                    Visit Website
+                </a>
+                 <div class="mt-3 text-center text-xs text-gray-500">
+                    <p>info@antara.org | +91-987-654-3215</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 7: Armman -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 border flex flex-col">
+            <img class="w-full h-52 object-cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPrYjGnfKkJV_pis5nrb4t68XLiwT3QnpeN5ANrPqBukh87eN3LIlScbTbZG3BGPwCWj0&usqp=CAU" alt="A pregnant woman using a mobile phone">
+            <div class="p-6 flex flex-col flex-grow">
+                <h2 class="text-xl font-bold text-gray-800 mb-2">Armman</h2>
+                <p class="text-gray-600 text-sm mb-4 flex-grow">Armman is a leading non-profit that leverages technology to create scalable solutions for improving the health of pregnant women, new mothers, and children. Their flagship programs, like mMitra, send free, timed, and targeted preventive care information through voice calls directly to the mobile phones of women in low-income communities. This simple yet powerful intervention ensures that women receive critical health information throughout pregnancy and infancy, empowering them to make healthier choices for themselves and their children.</p>
+                <a href="https://armman.org/" target="_blank" rel="noopener noreferrer" class="inline-block bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-blue-700 transition text-center">
+                    Visit Website
+                </a>
+                 <div class="mt-3 text-center text-xs text-gray-500">
+                    <p>info@armman.org | +91-987-654-3216</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 8: Seva Mandir -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 border flex flex-col">
+            <img class="w-full h-52 object-cover" src="https://www.sevamandir.org/images/logo-white.png" alt="A group of women in a rural village meeting">
+            <div class="p-6 flex flex-col flex-grow">
+                <h2 class="text-xl font-bold text-gray-800 mb-2">Seva Mandir</h2>
+                <p class="text-gray-600 text-sm mb-4 flex-grow">For over 50 years, Seva Mandir has been working on integrated rural development in the tribal regions of southern Rajasthan. Their holistic approach addresses interconnected issues of health, education, livelihoods, and governance. The health program focuses on strengthening maternal and child health services, improving immunization coverage, and tackling malnutrition through community engagement and by training local health volunteers. They empower communities to take charge of their own development and health outcomes.</p>
+                <a href="https://www.sevamandir.org/" target="_blank" rel="noopener noreferrer" class="inline-block bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-blue-700 transition text-center">
+                    Visit Website
+                </a>
+                 <div class="mt-3 text-center text-xs text-gray-500">
+                    <p>info@sevamandir.org | +91-987-654-3217</p>
+                </div>
+            </div>
+        </div>
+        
+         <!-- Card 9: Piramal Swasthya -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 border flex flex-col">
+            <img class="w-full h-52 object-cover" src="https://d2q79iu7y748jz.cloudfront.net/s/_squarelogo/256x256/f2d038f2fc514e2a23754bd866b2cd1b" alt="A doctor using a laptop for a telemedicine consultation">
+            <div class="p-6 flex flex-col flex-grow">
+                <h2 class="text-xl font-bold text-gray-800 mb-2">Piramal Swasthya</h2>
+                <p class="text-gray-600 text-sm mb-4 flex-grow">Piramal Swasthya is one of India's largest non-profit organizations focused on public primary healthcare. They operate a wide range of services, including telemedicine health advice helplines, mobile medical units, and community outreach programs that bring healthcare directly to the doorsteps of underserved rural populations. By integrating technology and working in partnership with state governments, they aim to make healthcare accessible, affordable, and equitable for millions of people across India.</p>
+                <a href="https://www.piramalswasthya.org/" target="_blank" rel="noopener noreferrer" class="inline-block bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-blue-700 transition text-center">
+                    Visit Website
+                </a>
+                 <div class="mt-3 text-center text-xs text-gray-500">
+                    <p>info@piramal.org | +91-987-654-3218</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- ASHA Slider Logic ---
+        const slides = document.querySelectorAll('#asha-slider .slide');
+        const prevBtn = document.getElementById('prev-slide');
+        const nextBtn = document.getElementById('next-slide');
+        let currentSlide = 0;
+        let slideInterval;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.style.opacity = i === index ? '1' : '0';
+            });
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            const newIndex = (currentSlide + 1) % slides.length;
+            showSlide(newIndex);
+        }
+        
+        function prevSlide() {
+            const newIndex = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(newIndex);
+        }
+
+        function startSlider() {
+           slideInterval = setInterval(nextSlide, 5000); // Auto-slide every 5 seconds
+        }
+
+        function stopSlider() {
+            clearInterval(slideInterval);
+        }
+
+        if (slides.length > 0) {
+            prevBtn.addEventListener('click', () => {
+                stopSlider();
+                prevSlide();
+                startSlider();
+            });
+            nextBtn.addEventListener('click', () => {
+                stopSlider();
+                nextSlide();
+                startSlider();
+            });
+            startSlider();
+        }
+
+
+        // --- "Find My ASHA" Directory Logic ---
+        // (The existing directory logic is placed here)
+        const locationData = {
+            "Maharashtra": {
+                "Pune": ["Haveli", "Maval", "Khed"],
+                "Satara": ["Karad", "Patan", "Wai"]
+            }
+        };
+
+        const ashaData = [
+            { name: "Sunita Pawar", state: "Maharashtra", district: "Pune", block: "Haveli", village: "Wagholi", phone: "9876543210", photo: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?q=80&w=1887&auto=format&fit=crop" },
+            { name: "Priya Jadhav", state: "Maharashtra", district: "Pune", block: "Haveli", village: "Manjri", phone: "9876543211", photo: "https://images.unsplash.com/photo-1542596594-649ed6e6b342?q=80&w=1887&auto=format&fit=crop" },
+            { name: "Anita Kulkarni", state: "Maharashtra", district: "Pune", block: "Maval", village: "Lonavala", phone: "9876543212", photo: "https://images.unsplash.com/photo-1604928141068-a2ac898a843a?q=80&w=1887&auto=format&fit=crop" },
+            { name: "Meena Deshmukh", state: "Maharashtra", district: "Satara", block: "Karad", village: "Oglewadi", phone: "9876543213", photo: "https://images.unsplash.com/photo-1621784563814-1b6b1de41a1a?q=80&w=1887&auto=format&fit=crop" },
+        ];
+
+        const stateSelect = document.getElementById('state-select');
+        const districtSelect = document.getElementById('district-select');
+        const blockSelect = document.getElementById('block-select');
+        const villageSearch = document.getElementById('village-search');
+        const searchBtn = document.getElementById('search-btn');
+        const resultsContainer = document.getElementById('asha-results-container');
+
+        stateSelect.addEventListener('change', () => {
+            const state = stateSelect.value;
+            districtSelect.innerHTML = '<option value="">-- Select District --</option>';
+            blockSelect.innerHTML = '<option value="">-- Select Block --</option>';
+            districtSelect.disabled = true;
+            blockSelect.disabled = true;
+            villageSearch.disabled = true;
+
+            if (state && locationData[state]) {
+                Object.keys(locationData[state]).forEach(district => {
+                    districtSelect.innerHTML += `<option value="${district}">${district}</option>`;
+                });
+                districtSelect.disabled = false;
+            }
+        });
+
+        districtSelect.addEventListener('change', () => {
+            const state = stateSelect.value;
+            const district = districtSelect.value;
+            blockSelect.innerHTML = '<option value="">-- Select Block --</option>';
+            blockSelect.disabled = true;
+            villageSearch.disabled = true;
+
+            if (district && locationData[state][district]) {
+                locationData[state][district].forEach(block => {
+                    blockSelect.innerHTML += `<option value="${block}">${block}</option>`;
+                });
+                blockSelect.disabled = false;
+                villageSearch.disabled = false;
+            }
+        });
+
+        searchBtn.addEventListener('click', () => {
+            const filters = {
+                state: stateSelect.value,
+                district: districtSelect.value,
+                block: blockSelect.value,
+                village: villageSearch.value.toLowerCase()
+            };
+
+            const filteredResults = ashaData.filter(asha => {
+                return (!filters.state || asha.state === filters.state) &&
+                       (!filters.district || asha.district === filters.district) &&
+                       (!filters.block || asha.block === filters.block) &&
+                       (!filters.village || asha.village.toLowerCase().includes(filters.village));
+            });
+
+            renderResults(filteredResults);
+        });
+
+        function renderResults(results) {
+            resultsContainer.innerHTML = '';
+            if (results.length === 0) {
+                resultsContainer.innerHTML = '<p class="text-center text-gray-500 mt-4">No ASHA workers found for your search criteria.</p>';
+                return;
+            }
+
+            results.forEach(asha => {
+                const card = document.createElement('div');
+                card.className = 'bg-gray-50 p-4 rounded-lg shadow-md border flex items-center justify-between mt-4';
+                card.innerHTML = `
+                    <div class="flex items-center">
+                        <img src="${asha.photo}" alt="${asha.name}" class="w-16 h-16 rounded-full object-cover mr-4">
+                        <div>
+                            <p class="font-bold text-lg text-gray-800">${asha.name}</p>
+                            <p class="text-sm text-gray-600">Covers: ${asha.village}, ${asha.block}</p>
+                        </div>
+                    </div>
+                    <button data-phone="${asha.phone}" data-name="${asha.name}" class="call-btn bg-green-500 text-white font-semibold py-2 px-5 rounded-lg hover:bg-green-600 transition">
+                        <i class="fa-solid fa-phone mr-2"></i>Call Now
+                    </button>
+                `;
+                resultsContainer.appendChild(card);
+            });
+        }
+
+        resultsContainer.addEventListener('click', (e) => {
+            const callButton = e.target.closest('.call-btn');
+            if (callButton) {
+                const phone = callButton.dataset.phone;
+                const name = callButton.dataset.name;
+                if (confirm(`Do you want to call ${name}?`)) {
+                    window.location.href = `tel:${phone}`;
+                }
+            }
+        });
+    });
+</script>
+

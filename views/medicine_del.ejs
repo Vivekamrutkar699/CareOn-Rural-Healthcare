@@ -1,0 +1,297 @@
+<% layout = 'layout/boilerplate' %>
+
+<!-- Header Section -->
+<header class="text-center mb-12">
+    <h1 class="text-4xl md:text-5xl font-bold text-gray-800">Chronic Care Medicine Delivery</h1>
+    <p class="text-gray-600 mt-3 max-w-3xl mx-auto">Order specialized medicines for chronic conditions, delivered safely to your location. A valid prescription and doctor's approval are required for all orders.</p>
+</header>
+
+<!-- Main Grid for Medicine Products -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+    <!-- Medicine Card 1: Insulin Pen -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden border flex flex-col">
+        <img class="w-full h-56 object-cover object-center" src="https://m.media-amazon.com/images/I/41XtOtSxz-L.jpg" alt="Insulin Pen">
+        <div class="p-6 flex flex-col flex-grow">
+            <h2 class="text-xl font-bold text-gray-800 mb-1">Insulin Glargine Pen</h2>
+            <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-red-600 bg-red-200 last:mr-0 mr-1 mb-3">
+                For Diabetes
+            </span>
+            <p class="text-gray-600 text-sm mb-4 flex-grow">A long-acting insulin pen used to manage high blood sugar in adults and children with diabetes mellitus. Requires careful storage and a consistent daily schedule.</p>
+            <p class="text-sm font-semibold text-gray-700 mb-4">Estimated Delivery: <span class="text-blue-600">5-7 Days (Cold Chain)</span></p>
+            
+            <!-- Actions -->
+            <div class="flex items-center justify-between mb-4">
+                <label class="text-sm font-medium text-gray-700">Quantity:</label>
+                <div class="flex items-center border border-gray-300 rounded-md">
+                    <button class="quantity-minus px-3 py-1 text-lg font-bold text-gray-600 hover:bg-gray-100 rounded-l-md">-</button>
+                    <input type="number" class="quantity-input w-12 text-center border-l border-r" value="1" min="1">
+                    <button class="quantity-plus px-3 py-1 text-lg font-bold text-gray-600 hover:bg-gray-100 rounded-r-md">+</button>
+                </div>
+            </div>
+            <button class="w-full bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-blue-700 transition">
+                Request Order
+            </button>
+            <button class="w-full mt-2 bg-gray-200 text-gray-700 font-semibold py-2 px-5 rounded-lg hover:bg-gray-300 transition flex items-center justify-center">
+                <i class="fa-solid fa-check-circle mr-2 text-green-600"></i> Requires Doctor's Approval
+            </button>
+        </div>
+    </div>
+
+    <!-- Medicine Card 2: Heart Failure Medication -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden border flex flex-col">
+        <img class="w-full h-56 object-cover object-center" src="https://www.scottmorrison.in/wp-content/uploads/2024/09/SCABUTOR-50.jpg" alt="Heart medication pills">
+        <div class="p-6 flex flex-col flex-grow">
+            <h2 class="text-xl font-bold text-gray-800 mb-1">Sacubitril/Valsartan</h2>
+            <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-purple-600 bg-purple-200 last:mr-0 mr-1 mb-3">
+                For Heart Failure
+            </span>
+            <p class="text-gray-600 text-sm mb-4 flex-grow">A specialized combination medicine used to reduce the risk of cardiovascular death and hospitalization for patients with chronic heart failure. It helps relax blood vessels and improve blood flow.</p>
+            <p class="text-sm font-semibold text-gray-700 mb-4">Estimated Delivery: <span class="text-blue-600">4-6 Days</span></p>
+
+            <!-- Actions -->
+            <div class="flex items-center justify-between mb-4">
+                <label class="text-sm font-medium text-gray-700">Quantity:</label>
+                <div class="flex items-center border border-gray-300 rounded-md">
+                    <button class="quantity-minus px-3 py-1 text-lg font-bold text-gray-600 hover:bg-gray-100 rounded-l-md">-</button>
+                    <input type="number" class="quantity-input w-12 text-center border-l border-r" value="1" min="1">
+                    <button class="quantity-plus px-3 py-1 text-lg font-bold text-gray-600 hover:bg-gray-100 rounded-r-md">+</button>
+                </div>
+            </div>
+            <button class="w-full bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-blue-700 transition">
+                Request Order
+            </button>
+            <button class="w-full mt-2 bg-gray-200 text-gray-700 font-semibold py-2 px-5 rounded-lg hover:bg-gray-300 transition flex items-center justify-center">
+                <i class="fa-solid fa-check-circle mr-2 text-green-600"></i> Requires Doctor's Approval
+            </button>
+        </div>
+    </div>
+
+    <!-- Medicine Card 3: Asthma Inhaler -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden border flex flex-col">
+        <img class="w-full h-56 object-cover object-center" src="https://nutrarespiro.com/public/Products/LtmFJcq4iTJHiGQ70WNBblVXLbbu7o0BvvGu5LXh.jpg" alt="Asthma inhaler">
+        <div class="p-6 flex flex-col flex-grow">
+            <h2 class="text-xl font-bold text-gray-800 mb-1">Fluticasone/Salmeterol Inhaler</h2>
+            <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-teal-600 bg-teal-200 last:mr-0 mr-1 mb-3">
+                For Asthma / COPD
+            </span>
+            <p class="text-gray-600 text-sm mb-4 flex-grow">A combination maintenance inhaler used to control and prevent symptoms of asthma and chronic obstructive pulmonary disease (COPD). It contains a corticosteroid to reduce inflammation and a long-acting bronchodilator.</p>
+            <p class="text-sm font-semibold text-gray-700 mb-4">Estimated Delivery: <span class="text-blue-600">3-5 Days</span></p>
+
+            <!-- Actions -->
+            <div class="flex items-center justify-between mb-4">
+                <label class="text-sm font-medium text-gray-700">Quantity:</label>
+                <div class="flex items-center border border-gray-300 rounded-md">
+                    <button class="quantity-minus px-3 py-1 text-lg font-bold text-gray-600 hover:bg-gray-100 rounded-l-md">-</button>
+                    <input type="number" class="quantity-input w-12 text-center border-l border-r" value="1" min="1">
+                    <button class="quantity-plus px-3 py-1 text-lg font-bold text-gray-600 hover:bg-gray-100 rounded-r-md">+</button>
+                </div>
+            </div>
+            <button class="w-full bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-blue-700 transition">
+                Request Order
+            </button>
+            <button class="w-full mt-2 bg-gray-200 text-gray-700 font-semibold py-2 px-5 rounded-lg hover:bg-gray-300 transition flex items-center justify-center">
+                <i class="fa-solid fa-check-circle mr-2 text-green-600"></i> Requires Doctor's Approval
+            </button>
+        </div>
+    </div>
+
+     <!-- Medicine Card 4: Rheumatoid Arthritis -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden border flex flex-col">
+        <img class="w-full h-56 object-cover object-center" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfjgEm3FTEOoemQC7tYwB1r9HZhz4Dye4BdQ&s" alt="Blister pack of pills">
+        <div class="p-6 flex flex-col flex-grow">
+            <h2 class="text-xl font-bold text-gray-800 mb-1">Methotrexate Tablets</h2>
+            <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-orange-600 bg-orange-200 last:mr-0 mr-1 mb-3">
+                For Rheumatoid Arthritis
+            </span>
+            <p class="text-gray-600 text-sm mb-4 flex-grow">A Disease-Modifying Antirheumatic Drug (DMARD) that is a cornerstone of treatment for rheumatoid arthritis. It helps reduce joint pain and swelling and prevents long-term joint damage. Requires regular monitoring by a doctor.</p>
+            <p class="text-sm font-semibold text-gray-700 mb-4">Estimated Delivery: <span class="text-blue-600">4-6 Days</span></p>
+
+            <!-- Actions -->
+            <div class="flex items-center justify-between mb-4">
+                <label class="text-sm font-medium text-gray-700">Quantity:</label>
+                <div class="flex items-center border border-gray-300 rounded-md">
+                    <button class="quantity-minus px-3 py-1 text-lg font-bold text-gray-600 hover:bg-gray-100 rounded-l-md">-</button>
+                    <input type="number" class="quantity-input w-12 text-center border-l border-r" value="1" min="1">
+                    <button class="quantity-plus px-3 py-1 text-lg font-bold text-gray-600 hover:bg-gray-100 rounded-r-md">+</button>
+                </div>
+            </div>
+            <button class="w-full bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-blue-700 transition">
+                Request Order
+            </button>
+            <button class="w-full mt-2 bg-gray-200 text-gray-700 font-semibold py-2 px-5 rounded-lg hover:bg-gray-300 transition flex items-center justify-center">
+                <i class="fa-solid fa-check-circle mr-2 text-green-600"></i> Requires Doctor's Approval
+            </button>
+        </div>
+    </div>
+
+    <!-- Medicine Card 5: Warfarin -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden border flex flex-col">
+        <img class="w-full h-56 object-cover object-center" src="https://5.imimg.com/data5/SELLER/Default/2024/10/458904971/KP/OI/EV/6334837/warf-warfarin-tablet.jpg" alt="Pills in a bottle">
+        <div class="p-6 flex flex-col flex-grow">
+            <h2 class="text-xl font-bold text-gray-800 mb-1">Warfarin Tablets</h2>
+            <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-indigo-600 bg-indigo-200 last:mr-0 mr-1 mb-3">
+                For Blood Clots
+            </span>
+            <p class="text-gray-600 text-sm mb-4 flex-grow">An anticoagulant (blood thinner) used to prevent blood clots in conditions like atrial fibrillation or deep vein thrombosis. Dosage requires careful management and regular blood monitoring (INR tests).</p>
+            <p class="text-sm font-semibold text-gray-700 mb-4">Estimated Delivery: <span class="text-blue-600">3-5 Days</span></p>
+
+            <!-- Actions -->
+            <div class="flex items-center justify-between mb-4">
+                <label class="text-sm font-medium text-gray-700">Quantity:</label>
+                <div class="flex items-center border border-gray-300 rounded-md">
+                    <button class="quantity-minus px-3 py-1 text-lg font-bold text-gray-600 hover:bg-gray-100 rounded-l-md">-</button>
+                    <input type="number" class="quantity-input w-12 text-center border-l border-r" value="1" min="1">
+                    <button class="quantity-plus px-3 py-1 text-lg font-bold text-gray-600 hover:bg-gray-100 rounded-r-md">+</button>
+                </div>
+            </div>
+            <button class="w-full bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-blue-700 transition">
+                Request Order
+            </button>
+            <button class="w-full mt-2 bg-gray-200 text-gray-700 font-semibold py-2 px-5 rounded-lg hover:bg-gray-300 transition flex items-center justify-center">
+                <i class="fa-solid fa-check-circle mr-2 text-green-600"></i> Requires Doctor's Approval
+            </button>
+        </div>
+    </div>
+
+    <!-- Medicine Card 6: Levothyroxine -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden border flex flex-col">
+        <img class="w-full h-56 object-cover object-center" src="https://images.apollo247.in/pub/media/catalog/product/L/E/LET0022_1_1.jpg?tr=q-80,f-webp,w-400,dpr-3,c-at_max%20400w" alt="Pills organized by day">
+        <div class="p-6 flex flex-col flex-grow">
+            <h2 class="text-xl font-bold text-gray-800 mb-1">Levothyroxine Sodium</h2>
+            <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-pink-600 bg-pink-200 last:mr-0 mr-1 mb-3">
+                For Hypothyroidism
+            </span>
+            <p class="text-gray-600 text-sm mb-4 flex-grow">A thyroid hormone replacement therapy used to treat an underactive thyroid. It helps restore normal hormone levels, regulating the body's energy and metabolism. Lifelong therapy is often necessary.</p>
+            <p class="text-sm font-semibold text-gray-700 mb-4">Estimated Delivery: <span class="text-blue-600">2-4 Days</span></p>
+
+            <!-- Actions -->
+            <div class="flex items-center justify-between mb-4">
+                <label class="text-sm font-medium text-gray-700">Quantity:</label>
+                <div class="flex items-center border border-gray-300 rounded-md">
+                    <button class="quantity-minus px-3 py-1 text-lg font-bold text-gray-600 hover:bg-gray-100 rounded-l-md">-</button>
+                    <input type="number" class="quantity-input w-12 text-center border-l border-r" value="1" min="1">
+                    <button class="quantity-plus px-3 py-1 text-lg font-bold text-gray-600 hover:bg-gray-100 rounded-r-md">+</button>
+                </div>
+            </div>
+            <button class="w-full bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-blue-700 transition">
+                Request Order
+            </button>
+            <button class="w-full mt-2 bg-gray-200 text-gray-700 font-semibold py-2 px-5 rounded-lg hover:bg-gray-300 transition flex items-center justify-center">
+                <i class="fa-solid fa-check-circle mr-2 text-green-600"></i> Requires Doctor's Approval
+            </button>
+        </div>
+    </div>
+    
+    <!-- Medicine Card 7: Atorvastatin -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden border flex flex-col">
+        <img class="w-full h-56 object-cover object-center" src="https://www.attopgx.com/uploads/medication-dictionary/2_1.webp" alt="Abstract medical background">
+        <div class="p-6 flex flex-col flex-grow">
+            <h2 class="text-xl font-bold text-gray-800 mb-1">Atorvastatin</h2>
+            <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-yellow-600 bg-yellow-200 last:mr-0 mr-1 mb-3">
+                For High Cholesterol
+            </span>
+            <p class="text-gray-600 text-sm mb-4 flex-grow">A statin medication used to lower "bad" cholesterol (LDL) and fats (triglycerides) in the blood. It helps reduce the risk of heart attack and stroke in patients with cardiovascular risk factors.</p>
+            <p class="text-sm font-semibold text-gray-700 mb-4">Estimated Delivery: <span class="text-blue-600">3-5 Days</span></p>
+
+            <!-- Actions -->
+            <div class="flex items-center justify-between mb-4">
+                <label class="text-sm font-medium text-gray-700">Quantity:</label>
+                <div class="flex items-center border border-gray-300 rounded-md">
+                    <button class="quantity-minus px-3 py-1 text-lg font-bold text-gray-600 hover:bg-gray-100 rounded-l-md">-</button>
+                    <input type="number" class="quantity-input w-12 text-center border-l border-r" value="1" min="1">
+                    <button class="quantity-plus px-3 py-1 text-lg font-bold text-gray-600 hover:bg-gray-100 rounded-r-md">+</button>
+                </div>
+            </div>
+            <button class="w-full bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-blue-700 transition">
+                Request Order
+            </button>
+            <button class="w-full mt-2 bg-gray-200 text-gray-700 font-semibold py-2 px-5 rounded-lg hover:bg-gray-300 transition flex items-center justify-center">
+                <i class="fa-solid fa-check-circle mr-2 text-green-600"></i> Requires Doctor's Approval
+            </button>
+        </div>
+    </div>
+    
+    <!-- Medicine Card 8: Metformin -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden border flex flex-col">
+        <img class="w-full h-56 object-cover object-center" src="https://5.imimg.com/data5/SELLER/Default/2025/4/506947582/GP/KM/DV/240380123/metformin-hydrochloride-500mg-tablet.webp" alt="Close up of white pills">
+        <div class="p-6 flex flex-col flex-grow">
+            <h2 class="text-xl font-bold text-gray-800 mb-1">Metformin HCl</h2>
+            <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-red-600 bg-red-200 last:mr-0 mr-1 mb-3">
+                For Type 2 Diabetes
+            </span>
+            <p class="text-gray-600 text-sm mb-4 flex-grow">A first-line medication for the treatment of type 2 diabetes. It helps control blood sugar levels by improving how the body handles insulin. Often used in combination with diet and exercise.</p>
+            <p class="text-sm font-semibold text-gray-700 mb-4">Estimated Delivery: <span class="text-blue-600">2-4 Days</span></p>
+
+            <!-- Actions -->
+            <div class="flex items-center justify-between mb-4">
+                <label class="text-sm font-medium text-gray-700">Quantity:</label>
+                <div class="flex items-center border border-gray-300 rounded-md">
+                    <button class="quantity-minus px-3 py-1 text-lg font-bold text-gray-600 hover:bg-gray-100 rounded-l-md">-</button>
+                    <input type="number" class="quantity-input w-12 text-center border-l border-r" value="1" min="1">
+                    <button class="quantity-plus px-3 py-1 text-lg font-bold text-gray-600 hover:bg-gray-100 rounded-r-md">+</button>
+                </div>
+            </div>
+            <button class="w-full bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-blue-700 transition">
+                Request Order
+            </button>
+            <button class="w-full mt-2 bg-gray-200 text-gray-700 font-semibold py-2 px-5 rounded-lg hover:bg-gray-300 transition flex items-center justify-center">
+                <i class="fa-solid fa-check-circle mr-2 text-green-600"></i> Requires Doctor's Approval
+            </button>
+        </div>
+    </div>
+
+    <!-- Medicine Card 9: Albuterol Inhaler -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden border flex flex-col">
+        <img class="w-full h-56 object-cover object-center" src="https://5.imimg.com/data5/SELLER/Default/2024/12/473552381/MY/XE/FZ/154982040/albuterol-sulfate-inhalation-aerosol-90mcg2.jpg" alt="Blue rescue inhaler">
+        <div class="p-6 flex flex-col flex-grow">
+            <h2 class="text-xl font-bold text-gray-800 mb-1">Albuterol Sulfate Inhaler</h2>
+            <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-teal-600 bg-teal-200 last:mr-0 mr-1 mb-3">
+                For Asthma (Rescue)
+            </span>
+            <p class="text-gray-600 text-sm mb-4 flex-grow">A fast-acting bronchodilator for quick relief of bronchospasm in patients with asthma or COPD. This is a "rescue" inhaler for sudden breathing problems, not for long-term control.</p>
+            <p class="text-sm font-semibold text-gray-700 mb-4">Estimated Delivery: <span class="text-blue-600">3-5 Days</span></p>
+
+            <!-- Actions -->
+            <div class="flex items-center justify-between mb-4">
+                <label class="text-sm font-medium text-gray-700">Quantity:</label>
+                <div class="flex items-center border border-gray-300 rounded-md">
+                    <button class="quantity-minus px-3 py-1 text-lg font-bold text-gray-600 hover:bg-gray-100 rounded-l-md">-</button>
+                    <input type="number" class="quantity-input w-12 text-center border-l border-r" value="1" min="1">
+                    <button class="quantity-plus px-3 py-1 text-lg font-bold text-gray-600 hover:bg-gray-100 rounded-r-md">+</button>
+                </div>
+            </div>
+            <button class="w-full bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-blue-700 transition">
+                Request Order
+            </button>
+            <button class="w-full mt-2 bg-gray-200 text-gray-700 font-semibold py-2 px-5 rounded-lg hover:bg-gray-300 transition flex items-center justify-center">
+                <i class="fa-solid fa-check-circle mr-2 text-green-600"></i> Requires Doctor's Approval
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<!-- Simple script for quantity controls -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.quantity-minus').forEach(button => {
+            button.addEventListener('click', () => {
+                const input = button.nextElementSibling;
+                let value = parseInt(input.value);
+                if (value > 1) {
+                    input.value = value - 1;
+                }
+            });
+        });
+
+        document.querySelectorAll('.quantity-plus').forEach(button => {
+            button.addEventListener('click', () => {
+                const input = button.previousElementSibling;
+                let value = parseInt(input.value);
+                input.value = value + 1;
+            });
+        });
+    });
+</script>
+

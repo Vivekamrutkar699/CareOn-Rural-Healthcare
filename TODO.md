@@ -1,0 +1,1 @@
+- [x] Edit views/medicine.ejs to change the button text from "Contact" to "Visit Website" for all 9 partner cards in the "Our Partners in Rural Healthcare" section

@@ -1,0 +1,143 @@
+<% layout = 'layout/boilerplate' %>
+
+<!-- Header Section -->
+<header class="text-center mb-10">
+    <h1 class="text-4xl md:text-5xl font-bold text-blue-900">Telemedicine Hub</h1>
+    <p class="text-gray-600 mt-2">Manage video consultation requests and view your upcoming appointments.</p>
+</header>
+
+<!-- Main Content Area -->
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+    <!-- Column 1: Pending Requests -->
+    <div>
+        <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">
+            <i class="fa-solid fa-inbox mr-2 text-yellow-500"></i> Pending Consultation Requests
+        </h2>
+        <div id="pending-requests-container" class="space-y-4">
+            <!-- Sample Request 1 -->
+            <div class="request-card bg-white p-5 rounded-lg shadow-md border border-gray-200" data-patient-id="ASJ004" data-patient-name="Rina Devi">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="font-bold text-lg text-gray-900">Rina Devi</p>
+                        <p class="text-sm text-gray-600">Patient ID: ASJ004</p>
+                        <p class="text-sm text-gray-500 mt-1">Requested: 1 hour ago</p>
+                    </div>
+                    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full">New</span>
+                </div>
+                <p class="mt-3 text-gray-700">Reason for call: "Follow-up for fever and weakness."</p>
+                <div class="mt-4 flex items-center justify-end space-x-3">
+                    <button class="decline-btn bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition">Decline</button>
+                    <button class="schedule-btn bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition">Accept & Schedule</button>
+                </div>
+            </div>
+             <!-- Sample Request 2 -->
+            <div class="request-card bg-white p-5 rounded-lg shadow-md border border-gray-200" data-patient-id="ASJ005" data-patient-name="Mohan Singh">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="font-bold text-lg text-gray-900">Mohan Singh</p>
+                        <p class="text-sm text-gray-600">Patient ID: ASJ005</p>
+                        <p class="text-sm text-gray-500 mt-1">Requested: 5 hours ago</p>
+                    </div>
+                    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full">New</span>
+                </div>
+                <p class="mt-3 text-gray-700">Reason for call: "Need to discuss blood pressure readings."</p>
+                <div class="mt-4 flex items-center justify-end space-x-3">
+                    <button class="decline-btn bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition">Decline</button>
+                    <button class="schedule-btn bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition">Accept & Schedule</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Column 2: Upcoming Appointments -->
+    <div>
+        <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">
+            <i class="fa-solid fa-calendar-check mr-2 text-green-500"></i> Upcoming Appointments
+        </h2>
+        <div id="upcoming-appointments-container" class="space-y-4">
+             <!-- Sample Appointment 1 (Today) -->
+            <div class="appointment-card bg-white p-5 rounded-lg shadow-md border border-gray-200" data-appointment-datetime="2025-10-10T16:00:00">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="font-bold text-lg text-gray-900">Kumar Sharma</p>
+                        <p class="text-sm text-gray-600">Patient ID: ASJ001</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-semibold text-gray-800">Today at 4:00 PM</p>
+                        <p class="relative-time text-sm text-gray-500">Calculating...</p>
+                    </div>
+                </div>
+                <!-- MODIFIED: Container for buttons -->
+                <div class="mt-4 flex items-center space-x-3">
+                    <a href="#" class="video-call-link w-full text-center block bg-gray-300 text-gray-500 font-bold py-3 px-4 rounded-lg cursor-not-allowed transition-all duration-300">
+                        <i class="fa-solid fa-video-slash mr-2"></i> Call not active yet
+                    </a>
+                    <!-- NEW: Force Start Button -->
+                    <a href="/revision" class="force-start-btn flex-shrink-0 bg-purple-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-purple-700 transition" title="Force start this call immediately">
+                        <i class="fa-solid fa-bolt mr-1"></i> Force Start
+                    </a>
+                </div>
+            </div>
+            <!-- Sample Appointment 2 (Tomorrow) -->
+            <div class="appointment-card bg-white p-5 rounded-lg shadow-md border border-gray-200" data-appointment-datetime="2025-10-11T11:30:00">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="font-bold text-lg text-gray-900">Sunita Devi</p>
+                        <p class="text-sm text-gray-600">Patient ID: ASJ002</p>
+                    </div>
+                     <div class="text-right">
+                        <p class="font-semibold text-gray-800">Tomorrow at 11:30 AM</p>
+                        <p class="relative-time text-sm text-gray-500">Calculating...</p>
+                    </div>
+                </div>
+                 <!-- MODIFIED: Container for buttons -->
+                <div class="mt-4 flex items-center space-x-3">
+                     <a href="#" class="video-call-link w-full text-center block bg-gray-300 text-gray-500 font-bold py-3 px-4 rounded-lg cursor-not-allowed transition-all duration-300">
+                        <i class="fa-solid fa-video-slash mr-2"></i> Call not active yet
+                    </a>
+                    <!-- NEW: Force Start Button -->
+                    <a href="/revision" class="force-start-btn flex-shrink-0 bg-purple-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-purple-700 transition" title="Force start this call immediately">
+                        <i class="fa-solid fa-bolt mr-1"></i> Force Start
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Scheduling Modal -->
+<div id="schedule-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-2xl w-full max-w-md transform transition-all">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-bold text-gray-800">Schedule Appointment</h2>
+            <button id="close-modal-btn" class="text-gray-500 hover:text-gray-800 text-3xl leading-none">&times;</button>
+        </div>
+        <form id="schedule-form">
+            <input type="hidden" id="patient-id-input">
+            <input type="hidden" id="patient-name-input">
+            
+            <p class="mb-4">Scheduling for: <span id="modal-patient-name" class="font-semibold"></span></p>
+            
+            <div class="mb-4">
+                <label for="appointment-date" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                <input type="date" id="appointment-date" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" required>
+            </div>
+            
+            <div class="mb-6">
+                <label for="appointment-time" class="block text-sm font-medium text-gray-700 mb-1">Time</label>
+                <input type="time" id="appointment-time" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" required>
+            </div>
+            
+            <div class="flex justify-end space-x-4">
+                <button type="button" id="cancel-schedule-btn" class="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition">Cancel</button>
+                <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition">Confirm Appointment</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Add the script for interactivity -->
+<script src="/public/js/telemedicine.js"></script>
+

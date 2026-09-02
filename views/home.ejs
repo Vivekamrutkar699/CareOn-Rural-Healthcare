@@ -1,0 +1,302 @@
+<% layout = 'layout/boilerplate' %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareOn - AI-Powered Rural Healthcare</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* Custom styles to enhance Tailwind */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* A light gray background */
+        }
+        .text-primary-green {
+            color: #166534; /* A deep green for text */
+        }
+        .bg-primary-green {
+            background-color: #166534;
+        }
+        .border-primary-green {
+            border-color: #166534;
+        }
+        .feature-icon {
+            color: #16a34a; /* A brighter green for icons */
+        }
+        .stat-card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            border: 1px solid #e5e7eb;
+        }
+        /* Styles for the sliders */
+        .slider-container {
+            transition: transform 0.5s ease-in-out;
+        }
+        .slider-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .testimonial-slider {
+            transition: transform 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Hero Section -->
+    <section class="bg-white py-12 md:py-24">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <p class="font-semibold text-primary-green mb-2">AI-POWERED HEALTHCARE FOR RURAL COMMUNITIES</p>
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight">
+                        Advanced Healthcare, Rural Values
+                    </h1>
+                    <p class="mt-4 text-lg text-gray-600 max-w-xl">
+                        Your health, your community, your AI-powered care team. Distance doesn't determine care quality when you have CareOn by your side.
+                    </p>
+                    <div class="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-gray-600">
+                        <span class="flex items-center"><i class="fa-solid fa-shield-halved text-green-600 mr-2"></i>HIPAA Compliant</span>
+                        <span class="flex items-center"><i class="fa-solid fa-certificate text-green-600 mr-2"></i>Medical Board Certified</span>
+                        <span class="flex items-center"><i class="fa-solid fa-map-location-dot text-green-600 mr-2"></i>500+ Communities Served</span>
+                    </div>
+                </div>
+                <!-- Image Slider -->
+                <div class="relative overflow-hidden rounded-lg shadow-xl w-full h-auto aspect-video">
+                    <div id="slider-container" class="slider-container flex">
+                        <img src="https://plus.unsplash.com/premium_photo-1723507363965-87abdb2615be?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW5kaWFuJTIwbWVkaWNpbmV8ZW58MHx8MHx8fDA%3D" alt="A depiction of a healthy, thriving rural community" class="slider-img">
+                        <img src="https://media.istockphoto.com/id/1227071700/photo/concept-of-online-chat-telehealth-or-tele-counseling-with-nurse-or-doctor-on-screen-during.jpg?s=612x612&w=0&k=20&c=RzqvZIGRYp8srh1KSsOE1ffTCpw9oZek8a54v9FTATQ=" alt="Doctor consulting with a patient via video call" class="slider-img">
+                        <img src="https://media.istockphoto.com/id/1500323507/photo/a-doctor-examining-a-young-pregnant-woman-as-part-of-a-medical-health-care-camp-in-a-village.webp?a=1&b=1&s=612x612&w=0&k=20&c=ZJDPqfpWAGcp6VciHenwRMkY21hiEq0zHqVTU_72cn8=" alt="Abstract image of AI analyzing medical data" class="slider-img">
+                        <img src="https://media.istockphoto.com/id/1130934349/photo/doctor-doing-social-service-in-village.jpg?s=612x612&w=0&k=20&c=rP9-cpT0u0N-MguSe6VMojakJ5-7r4IObQhMI1qNvGU=" alt="An ambulance ready to respond" class="slider-img">
+                    </div>
+                    <button id="prev-slide" class="absolute top-1/2 left-2 -translate-y-1/2 bg-white/70 hover:bg-white rounded-full p-2 transition"><i class="fa-solid fa-chevron-left text-gray-800"></i></button>
+                    <button id="next-slide" class="absolute top-1/2 right-2 -translate-y-1/2 bg-white/70 hover:bg-white rounded-full p-2 transition"><i class="fa-solid fa-chevron-right text-gray-800"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="bg-gray-50 py-16">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <p class="text-4xl font-bold text-primary-green">98%</p>
+                    <p class="text-gray-600 mt-1">Patient Satisfaction</p>
+                </div>
+                <div>
+                    <p class="text-4xl font-bold text-primary-green">500+</p>
+                    <p class="text-gray-600 mt-1">Communities Served</p>
+                </div>
+                <div>
+                    <p class="text-4xl font-bold text-primary-green">50,000+</p>
+                    <p class="text-gray-600 mt-1">Lives Improved</p>
+                </div>
+                 <div>
+                    <p class="text-4xl font-bold text-primary-green">24/7</p>
+                    <p class="text-gray-600 mt-1">Emergency Access</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI-Powered Diagnosis Section -->
+    <section id="symptoms" class="py-20">
+        <div class="container mx-auto px-6 max-w-3xl text-center">
+            <p class="font-semibold text-primary-green">AI-POWERED DIAGNOSIS</p>
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mt-2">Check Your Symptoms</h2>
+            <p class="text-gray-600 mt-3">Our AI-powered symptom checker provides preliminary health assessments in minutes. Get personalized recommendations and know when to seek immediate care.</p>
+        </div>
+        <div class="container mx-auto px-6 max-w-3xl mt-8">
+            <div class="bg-white p-8 rounded-lg shadow-lg border border-gray-200">
+                <label for="symptom-description" class="font-semibold text-gray-700">Describe your symptoms</label>
+                <textarea id="symptom-description" rows="4" class="w-full mt-2 p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" placeholder="e.g., I have been experiencing chest pain and shortness of breath..."></textarea>
+                <div class="mt-4">
+                    <p class="font-semibold text-gray-700 mb-2">Or select common symptoms</p>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 text-left">
+                        <label class="flex items-center p-3 border rounded-md cursor-pointer hover:bg-gray-50"><input type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded mr-3">Fever</label>
+                        <label class="flex items-center p-3 border rounded-md cursor-pointer hover:bg-gray-50"><input type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded mr-3">Headache</label>
+                        <label class="flex items-center p-3 border rounded-md cursor-pointer hover:bg-gray-50"><input type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded mr-3">Cough</label>
+                        <label class="flex items-center p-3 border rounded-md cursor-pointer hover:bg-gray-50"><input type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded mr-3">Chest Pain</label>
+                        <label class="flex items-center p-3 border rounded-md cursor-pointer hover:bg-gray-50"><input type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded mr-3">Stomach Pain</label>
+                        <label class="flex items-center p-3 border rounded-md cursor-pointer hover:bg-gray-50"><input type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded mr-3">Fatigue</label>
+                    </div>
+                </div>
+                 <div class="mt-6">
+                    <button class="w-full bg-primary-green text-white font-bold py-3 px-6 rounded-lg hover:bg-green-800 transition-all duration-300 text-lg">
+                        <i class="fa-solid fa-robot mr-2"></i> Start AI Assessment
+                    </button>
+                </div>
+                <div class="mt-4 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-700 p-4 rounded-r-lg">
+                    <p><span class="font-bold">Medical Disclaimer:</span> This AI assessment is for informational purposes only and does not replace professional medical advice. For emergencies, call 911 immediately.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Consultation Section -->
+    <section class="bg-gray-50 py-20">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="text-center md:text-left">
+                    <p class="font-semibold text-primary-green">VIRTUAL APPOINTMENTS</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mt-2">Connect with a Doctor from Home</h2>
+                    <p class="text-gray-600 mt-4 max-w-lg mx-auto md:mx-0">
+                        Schedule and attend secure video consultations with our certified medical professionals. Get the care you need, no matter where you are.
+                    </p>
+                    <div class="mt-8">
+                        <a href="/generator" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-xl text-lg">
+                            Schedule a Video Call
+                        </a>
+                    </div>
+                </div>
+                <div>
+                     <img src="https://media.istockphoto.com/id/2167124521/photo/female-indian-doctor-examining-a-rural-senior-woman-patient-with-stethoscope-during-house.jpg?s=612x612&w=0&k=20&c=LuIUJqSuQBwm7pR1KmF8XNh2hZel79Cn7Ni10vwJMZw=" alt="A doctor consults a family via a video call on a laptop" class="rounded-lg shadow-xl w-full h-auto">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                 <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Real Stories from Real People</h2>
+                 <p class="text-gray-600 mt-2 max-w-2xl mx-auto">Hear how CareOn is transforming healthcare experiences across rural India.</p>
+            </div>
+            <div class="relative max-w-2xl mx-auto">
+                <div class="overflow-hidden relative">
+                    <div id="testimonial-slider" class="flex transition-transform duration-500 ease-in-out">
+                        <!-- Testimonial 1 -->
+                        <div class="w-full flex-shrink-0 p-2">
+                            <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
+                                <div class="flex items-center mb-4">
+                                    <img src="https://plus.unsplash.com/premium_photo-1726873351723-cb980a1d6dcb?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjl8fGluZGlhbiUyMHZpbGxhZ2UlMjBvbGQlMjB3b21lbnxlbnwwfHwwfHx8MA%3D%3D" alt="Sunita Kumar" class="w-16 h-16 rounded-full mr-4 object-cover">
+                                    <div>
+                                        <p class="font-bold text-gray-900 text-lg">Sunita Kumar</p>
+                                        <p class="text-sm text-gray-600">Homemaker, Bihar</p>
+                                    </div>
+                                </div>
+                                <p class="text-gray-700 text-lg italic">"My baby had a high fever at night. I was so scared. Using CareOn, the doctor on the video call calmed me down and told me the right medicine to give. It saved us a long journey in the dark."</p>
+                            </div>
+                        </div>
+                        <!-- Testimonial 2 (FIXED) -->
+                        <div class="w-full flex-shrink-0 p-2">
+                            <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
+                                <div class="flex items-center mb-4">
+                                    <img src="https://images.unsplash.com/photo-1632414237690-7713a79fe9d3?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW5kaWFuJTIwdmlsbGFnZSUyMG9sZCUyMG1hbnxlbnwwfHwwfHx8MA%3D%3D" alt="Ramesh Patel" class="w-16 h-16 rounded-full mr-4 object-cover">
+                                    <div>
+                                        <p class="font-bold text-gray-900 text-lg">Ramesh Patel</p>
+                                        <p class="text-sm text-gray-600">Farmer, Gujarat</p>
+                                    </div>
+                                </div>
+                                <p class="text-gray-700 text-lg italic">"My village is far from the city hospital. The video call with the doctor confirmed my chest pain was serious. This service is a blessing for old people like me."</p>
+                            </div>
+                        </div>
+                        <!-- Testimonial 3 -->
+                        <div class="w-full flex-shrink-0 p-2">
+                            <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
+                                <div class="flex items-center mb-4">
+                                    <img src="https://plus.unsplash.com/premium_photo-1718570264200-d5b480d0afcd?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGluZGlhbiUyMHZpbGxhZ2UlMjBvbGQlMjB3b21lbnxlbnwwfHwwfHx8MA%3D%3D" alt="Laxmi Bai" class="w-16 h-16 rounded-full mr-4 object-cover">
+                                    <div>
+                                        <p class="font-bold text-gray-900 text-lg">Laxmi Bai</p>
+                                        <p class="text-sm text-gray-600">Weaver, Rajasthan</p>
+                                    </div>
+                                </div>
+                                <p class="text-gray-700 text-lg italic">"I have diabetes and need regular check-ups. With CareOn, I can talk to the doctor every month without losing a day's wage to travel. They help me manage my sugar levels."</p>
+                            </div>
+                        </div>
+                         <!-- Testimonial 4 (FIXED) -->
+                        <div class="w-full flex-shrink-0 p-2">
+                            <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
+                                <div class="flex items-center mb-4">
+                                    <img src="https://images.unsplash.com/photo-1608876537010-ac56d8731614?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Shankar Yadav" class="w-16 h-16 rounded-full mr-4 object-cover">
+                                    <div>
+                                        <p class="font-bold text-gray-900 text-lg">Shankar Yadav</p>
+                                        <p class="text-sm text-gray-600">Sarpanch, Uttar Pradesh</p>
+                                    </div>
+                                </div>
+                                <p class="text-gray-700 text-lg italic">"CareOn is changing our village. People are getting timely advice for their health problems. The AI symptom checker is very useful for everyone. We feel safer now."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button id="prev-testimonial" class="absolute top-1/2 -left-4 md:-left-12 -translate-y-1/2 bg-white/70 hover:bg-white rounded-full p-2 transition shadow-md"><i class="fa-solid fa-chevron-left text-gray-800"></i></button>
+                <button id="next-testimonial" class="absolute top-1/2 -right-4 md:-right-12 -translate-y-1/2 bg-white/70 hover:bg-white rounded-full p-2 transition shadow-md"><i class="fa-solid fa-chevron-right text-gray-800"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="bg-primary-green">
+        <div class="container mx-auto px-6 py-20 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white">Ready to Transform Your Healthcare Experience?</h2>
+            <p class="mt-4 text-lg text-green-100 max-w-3xl mx-auto">Join thousands of rural families who trust CareOn for their healthcare needs. Advanced technology, rural values, and compassionate care.</p>
+            <div class="mt-8 flex justify-center gap-4">
+                <a href="#" class="bg-white text-primary-green font-bold py-3 px-8 rounded-lg hover:bg-gray-100 transition-all duration-300 shadow-xl text-lg">
+                    Start Your Health Journey
+                </a>
+                <a href="#" class="border-2 border-white text-white font-bold py-3 px-8 rounded-lg hover:bg-white hover:text-primary-green transition-all duration-300 shadow-xl text-lg">
+                    Find Healthcare Providers
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Logic for the Hero Image Slider
+            const heroSlider = document.getElementById('slider-container');
+            if (heroSlider) {
+                const prevButton = document.getElementById('prev-slide');
+                const nextButton = document.getElementById('next-slide');
+                const slideCount = heroSlider.children.length;
+                let currentIndex = 0;
+
+                function goToSlide(index) {
+                    currentIndex = (index + slideCount) % slideCount;
+                    heroSlider.style.transform = `translateX(-${currentIndex * 100}%)`;
+                }
+                prevButton.addEventListener('click', () => goToSlide(currentIndex - 1));
+                nextButton.addEventListener('click', () => goToSlide(currentIndex + 1));
+                setInterval(() => goToSlide(currentIndex + 1), 5000);
+            }
+
+            // Logic for the Testimonial Slider
+            const testimonialSlider = document.getElementById('testimonial-slider');
+            if (testimonialSlider) {
+                const prevTestimonial = document.getElementById('prev-testimonial');
+                const nextTestimonial = document.getElementById('next-testimonial');
+                const testimonialCount = testimonialSlider.children.length;
+                let currentTestimonialIndex = 0;
+
+                function goToTestimonial(index) {
+                    currentTestimonialIndex = (index + testimonialCount) % testimonialCount;
+                    testimonialSlider.style.transform = `translateX(-${currentTestimonialIndex * 100}%)`;
+                }
+
+                prevTestimonial.addEventListener('click', () => goToTestimonial(currentTestimonialIndex - 1));
+                nextTestimonial.addEventListener('click', () => goToTestimonial(currentTestimonialIndex + 1));
+                 setInterval(() => goToTestimonial(currentTestimonialIndex + 1), 7000); // Slower auto-slide for testimonials
+            }
+        });
+    </script>
+</body>
+</html>
+

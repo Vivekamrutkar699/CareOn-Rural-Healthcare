@@ -1,0 +1,243 @@
+<% layout = 'layout/boilerplate' %>
+
+<!-- Include the Chart.js library for data visualization -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    /* Custom styles for better visual feedback */
+    .form-input {
+        transition: all 0.3s ease;
+    }
+    .form-input:focus {
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
+        border-color: #3B82F6;
+    }
+    /* Styles for the new modal */
+    #details-modal.hidden {
+        display: none;
+    }
+</style>
+
+<!-- Header Section -->
+<header class="text-center mb-10">
+    <h1 class="text-4xl md:text-5xl font-bold text-gray-800">Doctor's Dashboard</h1>
+    <p class="text-gray-600 mt-2">A central hub for patient management and tracking chronic conditions.</p>
+</header>
+
+<!-- Main Dashboard Content -->
+<div class="space-y-12">
+    
+    <!-- Quick Stats Section (No Changes) -->
+    <section>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="stat-card text-center">
+                <i class="fa-solid fa-users text-4xl text-blue-500 mb-3"></i>
+                <p class="text-3xl font-bold text-gray-800">152</p>
+                <p class="text-gray-500">Total Patients</p>
+            </div>
+            <div class="stat-card text-center">
+                <i class="fa-solid fa-heart-pulse text-4xl text-red-500 mb-3"></i>
+                <p class="text-3xl font-bold text-gray-800">34</p>
+                <p class="text-gray-500">Chronic Conditions Monitored</p>
+            </div>
+            <div class="stat-card text-center">
+                <i class="fa-solid fa-calendar-check text-4xl text-green-500 mb-3"></i>
+                <p class="text-3xl font-bold text-gray-800">8</p>
+                <p class="text-gray-500">Upcoming Appointments</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Easy Data Entry Section (No Changes) -->
+    <!-- Combined Section: Add Patient & Watchlist Side by Side -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    
+    <!-- Left: Add New Patient Record -->
+    <div class="bg-white p-8 rounded-lg shadow-lg border border-gray-200">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-3">
+            <i class="fa-solid fa-user-plus mr-2 text-gray-600"></i> Add New Patient Record
+        </h2>
+        <form id="add-patient-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label for="patient-name" class="block text-sm font-medium text-gray-700 mb-1">Patient Full Name</label>
+                <input type="text" id="patient-name" class="form-input w-full p-2 border border-gray-300 rounded-md" required>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label for="patient-age" class="block text-sm font-medium text-gray-700 mb-1">Age</label>
+                    <input type="number" id="patient-age" class="form-input w-full p-2 border border-gray-300 rounded-md" required>
+                </div>
+                <div>
+                    <label for="patient-gender" class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                    <select id="patient-gender" class="form-input w-full p-2 border border-gray-300 rounded-md">
+                        <option>Male</option>
+                        <option>Female</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label for="chronic-condition" class="block text-sm font-medium text-gray-700 mb-1">Chronic Condition (if any)</label>
+                <select id="chronic-condition" class="form-input w-full p-2 border border-gray-300 rounded-md">
+                    <option value="None">None</option>
+                    <option value="Diabetes">Diabetes</option>
+                    <option value="Hypertension">Hypertension</option>
+                    <option value="Asthma">Asthma</option>
+                    <option value="Tuberculosis">Tuberculosis</option>
+                </select>
+            </div>
+            <div>
+                <label for="condition-notes" class="block text-sm font-medium text-gray-700 mb-1">Condition Notes</label>
+                <input type="text" id="condition-notes" class="form-input w-full p-2 border border-gray-300 rounded-md" placeholder="e.g., Type 2, diagnosed 2021">
+            </div>
+            <div class="md:col-span-2 text-right">
+                <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition">
+                    Add Patient
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Right: Chronic Condition Watchlist -->
+    <div>
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">
+            <i class="fa-solid fa-list-check mr-2 text-gray-600"></i> Chronic Condition Watchlist
+        </h2>
+        <div class="bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden">
+            <table class="w-full">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="p-4 text-left text-sm font-semibold text-gray-600">Patient Name</th>
+                        <th class="p-4 text-left text-sm font-semibold text-gray-600">Condition</th>
+                        <th class="p-4 text-left text-sm font-semibold text-gray-600">Last Updated</th>
+                        <th class="p-4 text-left text-sm font-semibold text-gray-600">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="watchlist-body">
+                    <!-- Existing patient data goes here -->
+                    <tr class="border-b" data-name="Anita Desai" data-condition="Hypertension">
+                        <td class="p-4">Anita Desai</td>
+                        <td class="p-4"><span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Hypertension</span></td>
+                        <td class="p-4">2025-10-08</td>
+                        <td class="p-4"><a href="#" class="view-details-link text-blue-600 hover:underline">View Details</a></td>
+                    </tr>
+                    <tr class="border-b" data-name="Vijay Singh" data-condition="Diabetes">
+                        <td class="p-4">Vijay Singh</td>
+                        <td class="p-4"><span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Diabetes</span></td>
+                        <td class="p-4">2025-10-05</td>
+                        <td class="p-4"><a href="#" class="view-details-link text-blue-600 hover:underline">View Details</a></td>
+                    </tr>
+                    <tr class="border-b" data-name="Meena Reddy" data-condition="Asthma">
+    <td class="p-4">Meena Reddy</td>
+    <td class="p-4"><span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Asthma</span></td>
+    <td class="p-4">2025-10-04</td>
+    <td class="p-4"><a href="#" class="view-details-link text-blue-600 hover:underline">View Details</a></td>
+</tr>
+<tr class="border-b" data-name="Rahul Patil" data-condition="Diabetes">
+    <td class="p-4">Rahul Patil</td>
+    <td class="p-4"><span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Diabetes</span></td>
+    <td class="p-4">2025-09-28</td>
+    <td class="p-4"><a href="#" class="view-details-link text-blue-600 hover:underline">View Details</a></td>
+</tr>
+<tr class="border-b" data-name="Sonal Gupta" data-condition="Hypertension">
+    <td class="p-4">Sonal Gupta</td>
+    <td class="p-4"><span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Hypertension</span></td>
+    <td class="p-4">2025-10-02</td>
+    <td class="p-4"><a href="#" class="view-details-link text-blue-600 hover:underline">View Details</a></td>
+</tr>
+<tr class="border-b" data-name="Irfan Shaikh" data-condition="Tuberculosis">
+    <td class="p-4">Irfan Shaikh</td>
+    <td class="p-4"><span class="bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Tuberculosis</span></td>
+    <td class="p-4">2025-09-15</td>
+    <td class="p-4"><a href="#" class="view-details-link text-blue-600 hover:underline">View Details</a></td>
+</tr>
+<tr class="border-b" data-name="Priya Nair" data-condition="Diabetes">
+    <td class="p-4">Priya Nair</td>
+    <td class="p-4"><span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Diabetes</span></td>
+    <td class="p-4">2025-09-25</td>
+    <td class="p-4"><a href="#" class="view-details-link text-blue-600 hover:underline">View Details</a></td>
+</tr>
+<tr class="border-b" data-name="Karan Thakur" data-condition="None">
+    <td class="p-4">Karan Thakur</td>
+    <td class="p-4"><span class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded-full">None</span></td>
+    <td class="p-4">2025-09-30</td>
+    <td class="p-4"><a href="#" class="view-details-link text-blue-600 hover:underline">View Details</a></td>
+</tr>
+<tr class="border-b" data-name="Ritika Sharma" data-condition="Asthma">
+    <td class="p-4">Ritika Sharma</td>
+    <td class="p-4"><span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Asthma</span></td>
+    <td class="p-4">2025-10-01</td>
+    <td class="p-4"><a href="#" class="view-details-link text-blue-600 hover:underline">View Details</a></td>
+</tr>
+<tr class="border-b" data-name="Deepak Joshi" data-condition="Hypertension">
+    <td class="p-4">Deepak Joshi</td>
+    <td class="p-4"><span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Hypertension</span></td>
+    <td class="p-4">2025-09-20</td>
+    <td class="p-4"><a href="#" class="view-details-link text-blue-600 hover:underline">View Details</a></td>
+</tr>
+<tr class="border-b" data-name="Sneha Pawar" data-condition="Tuberculosis">
+    <td class="p-4">Sneha Pawar</td>
+    <td class="p-4"><span class="bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Tuberculosis</span></td>
+    <td class="p-4">2025-09-18</td>
+    <td class="p-4"><a href="#" class="view-details-link text-blue-600 hover:underline">View Details</a></td>
+</tr>
+<tr class="border-b" data-name="Manoj Bhat" data-condition="Asthma">
+    <td class="p-4">Manoj Bhat</td>
+    <td class="p-4"><span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Asthma</span></td>
+    <td class="p-4">2025-10-06</td>
+    <td class="p-4"><a href="#" class="view-details-link text-blue-600 hover:underline">View Details</a></td>
+</tr>
+<tr class="border-b" data-name="Leena Kamat" data-condition="Diabetes">
+    <td class="p-4">Leena Kamat</td>
+    <td class="p-4"><span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Diabetes</span></td>
+    <td class="p-4">2025-09-22</td>
+    <td class="p-4"><a href="#" class="view-details-link text-blue-600 hover:underline">View Details</a></td>
+</tr>
+
+
+                    <!-- Add your extra 10–11 rows here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+</div>
+
+<!-- MODAL FOR PATIENT DETAILS -->
+<div id="details-modal" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden flex items-center justify-center">
+    <div class="bg-gray-50 p-8 rounded-lg shadow-2xl w-full max-w-4xl transform transition-all m-4">
+        <!-- Modal Header -->
+        <div class="flex justify-between items-center mb-4 border-b pb-3">
+            <div>
+                <h2 id="modal-patient-name" class="text-3xl font-bold text-gray-800">Patient Name</h2>
+                <p id="modal-patient-condition" class="text-lg text-gray-600">Condition</p>
+            </div>
+            <button id="close-modal-btn" class="text-gray-500 hover:text-gray-800 text-4xl leading-none">&times;</button>
+        </div>
+        
+        <!-- Modal Body -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Left Column: Data Visualization -->
+            <div>
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">Health Trend</h3>
+                <div class="bg-white p-4 rounded-lg shadow border">
+                    <canvas id="health-chart"></canvas>
+                </div>
+            </div>
+            <!-- Right Column: AI Recommendations -->
+            <div>
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">
+                    <i class="fa-solid fa-robot mr-2"></i> AI-Powered Recommendations
+                </h3>
+                <div id="ai-recommendation" class="bg-white p-4 rounded-lg shadow border h-80 overflow-y-auto prose">
+                    <!-- AI content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Link to the JavaScript file that will power this page -->
+<script src="/js/dashboard.js"></script>
+

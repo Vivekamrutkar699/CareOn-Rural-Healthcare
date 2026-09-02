@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareOn</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Quicksand', 'sans-serif'],
+            },
+          },
+        },
+      }
+    </script>
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Quicksand Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif !important;
+        }
+        /* Style to hide the top Google Translate banner that appears on mobile */
+        body {
+            top: 0 !important;
+        }
+        .skiptranslate {
+            display: none !important;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen bg-gray-50">
+    
+    <!-- Include the Tailwind Navbar -->
+    <%- include('../includes/navbar.ejs') %>
+
+    <!-- Main content will be injected here -->
+    <main class="flex-grow container mx-auto p-4 md:p-8">
+        <%- body %>
+    </main>
+
+    <!-- Include the Tailwind Footer -->
+    <%- include('../includes/footer.ejs') %>
+
+    <!-- Google Translate Integration -->
+    <div id="google_translate_element" style="display:none;"></div>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <!-- EDITED: Robust script for cookie-based translation -->
+    <script>
+        // This function is required by Google's script to initialize the service.
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,hi,mr',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        /**
+         * Sets the Google Translate cookie to the desired language.
+         * The path=/ ensures the cookie applies to the entire website.
+         * @param {string} lang The language code (e.g., 'hi', 'mr').
+         */
+        function setLanguageCookie(lang) {
+            document.cookie = `googtrans=/en/${lang};path=/`;
+        }
+
+        /**
+         * Clears the Google Translate cookie by setting its expiration date to the past.
+         * This forces the page to revert to its original language (English).
+         */
+        function clearLanguageCookie() {
+            document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${window.location.hostname}`;
+        }
+
+        // --- Event Listener for DOMContentLoaded ---
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const dropdownButton = document.getElementById('language-dropdown-button');
+            const dropdownMenu = document.getElementById('language-dropdown-menu');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            // --- Unified Language Change Handler ---
+            // This single function handles all language change requests.
+            const handleLanguageChange = function(event) {
+                event.preventDefault();
+                const lang = this.dataset.lang;
+                
+                if (lang === 'en') {
+                    // If switching back to English, clear the cookie.
+                    clearLanguageCookie();
+                } else {
+                    // For any other language, set the cookie.
+                    setLanguageCookie(lang);
+                }
+
+                // Reload the page. The Google Translate script will read the cookie on page load
+                // and apply the correct translation automatically. This is the most reliable method.
+                location.reload();
+            };
+
+            // Attach the handler to all language links (desktop and mobile)
+            document.querySelectorAll('[data-lang]').forEach(link => {
+                link.addEventListener('click', handleLanguageChange);
+            });
+
+            // --- Other UI Logic ---
+            if (dropdownButton) {
+                dropdownButton.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if(dropdownMenu) dropdownMenu.classList.toggle('hidden');
+                });
+            }
+
+            document.addEventListener('click', () => {
+                if (dropdownMenu && !dropdownMenu.classList.contains('hidden')) {
+                    dropdownMenu.classList.add('hidden');
+                }
+            });
+
+            const menuButton = document.getElementById('mobile-menu-button');
+            if (menuButton && mobileMenu) {
+                const icon = menuButton.querySelector('i');
+                menuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    if (icon) {
+                        icon.classList.toggle('fa-bars');
+                        icon.classList.toggle('fa-xmark');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,76 @@
+<% layout = 'layout/boilerplate' %>
+
+<!-- Header Section -->
+<header class="text-center mb-10">
+    <h1 id="page-title" class="text-4xl md:text-5xl font-bold text-gray-800">AI Health Assistant</h1>
+    <p id="page-subtitle" class="text-gray-600 mt-2">Choose an option below to begin your analysis.</p>
+</header>
+
+<!-- Main App Container -->
+<div class="max-w-4xl mx-auto">
+
+    <!-- 1. Initial Selection Screen -->
+    <div id="selection-screen" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Analyze Skin Condition Button -->
+        <button id="analyze-skin-btn" class="analysis-choice-btn bg-white p-8 rounded-lg shadow-lg border border-gray-200 text-center hover:shadow-xl hover:border-blue-500 transition-all duration-300">
+            <i class="fa-solid fa-hand-sparkles text-5xl text-blue-500 mb-4"></i>
+            <h2 class="text-2xl font-bold text-gray-800">Analyze Skin Condition</h2>
+            <p class="text-gray-600 mt-2">Upload an image of a skin issue (e.g., rash, mole) for an initial assessment.</p>
+        </button>
+        <!-- Analyze Medical Report Button -->
+        <button id="analyze-report-btn" class="analysis-choice-btn bg-white p-8 rounded-lg shadow-lg border border-gray-200 text-center hover:shadow-xl hover:border-blue-500 transition-all duration-300">
+            <i class="fa-solid fa-file-medical text-5xl text-blue-500 mb-4"></i>
+            <h2 class="text-2xl font-bold text-gray-800">Analyze Medical Report</h2>
+            <p class="text-gray-600 mt-2">Upload an image of a lab report, X-ray, or other test for a summary of key findings.</p>
+        </button>
+    </div>
+
+    <!-- 2. Image Upload Screen (Initially Hidden) -->
+    <div id="upload-screen" class="hidden">
+         <div class="bg-white p-8 rounded-lg shadow-xl border border-gray-200">
+            <!-- This hidden input will tell the server which analysis to perform -->
+            <input type="hidden" id="analysis-type" name="analysisType">
+
+            <!-- Drag and Drop Area -->
+            <div id="image-drop-area" class="w-full h-64 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer transition hover:border-blue-500 hover:bg-blue-50">
+                <img src="" alt="Image Preview" id="image-preview" class="hidden max-h-full max-w-full object-contain rounded-md">
+                <div id="placeholder" class="text-gray-600">
+                    <i class="fa-solid fa-cloud-arrow-up text-5xl text-blue-500"></i>
+                    <p class="mt-2 font-semibold">Drag & drop your image here</p>
+                    <p class="text-sm">or click to choose a file</p>
+                </div>
+            </div>
+
+            <!-- Hidden file input -->
+            <input type="file" id="image-input" class="hidden" accept="image/*">
+
+            <!-- Controls -->
+            <div class="mt-6 flex flex-col items-center space-y-4">
+                <p id="file-name" class="text-sm text-gray-600">No file selected.</p>
+                <div>
+                    <button id="analyze-btn" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                        <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Analyze Image
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Loader -->
+    <div id="loader" class="hidden text-center p-8">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+        <p class="mt-4 text-lg font-medium text-gray-800">AI is analyzing your image, please wait...</p>
+    </div>
+
+    <!-- 4. Error and Result Display -->
+    <div id="error-container" class="hidden mt-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative" role="alert"></div>
+    
+    <div id="result-container" class="hidden mt-8 bg-white p-8 rounded-lg shadow-xl border border-gray-200">
+        <h3 class="text-2xl font-bold mb-4 text-gray-800 border-b pb-2">AI Analysis Report</h3>
+        <!-- The AI-generated report will be displayed here -->
+        <div id="result-text" class="prose max-w-none text-gray-700"></div>
+    </div>
+</div>
+
+<!-- Link to the NEW JavaScript file for this feature -->
+<script src="/js/health-analysis.js"></script>

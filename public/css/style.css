@@ -1,0 +1,650 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary-color: #0A2647;
+    --secondary-color: #144272;
+    --accent-color: #205295;
+    --text-highlight-color: #2C74B3;
+    --background-color: #F8F9FA;
+    --text-color: #333;
+    --white-color: #FFFFFF;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.navbar {
+    background-color: var(--white-color);
+    color: var(--primary-color);
+    padding: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.navbar .nav-links {
+    list-style: none;
+    display: flex;
+}
+
+.navbar .nav-links li {
+    margin-left: 25px;
+}
+
+.navbar .nav-links a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.navbar .nav-links a:hover {
+    color: var(--accent-color);
+}
+
+.hero {
+    background: var(--primary-color);
+    color: var(--white-color);
+    text-align: center;
+    padding: 100px 20px;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--accent-color);
+    color: var(--white-color);
+    border: 2px solid var(--accent-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--text-highlight-color);
+    border-color: var(--text-highlight-color);
+}
+
+.features {
+    padding: 80px 0;
+    text-align: center;
+}
+
+.features h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.features .section-intro {
+    font-size: 1.1rem;
+    margin-bottom: 4rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #666;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.feature-card {
+    background: var(--white-color);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.feature-card .icon {
+    font-size: 2.5rem;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--secondary-color);
+}
+
+.footer {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 60px;
+}
+
+
+
+
+
+
+/* Doubt Solver Page Styles */
+.doubt-container {
+    padding-top: 40px;
+    padding-bottom: 60px;
+    text-align: center;
+}
+
+.doubt-container h2 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.doubt-form-container {
+    max-width: 600px;
+    margin: 30px auto;
+    background: var(--white-color);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.file-upload-wrapper {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.file-upload-wrapper input[type="file"] {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.file-upload-wrapper label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border: 2px dashed var(--text-highlight-color);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.file-upload-wrapper label:hover {
+    background-color: #e9f1f8;
+}
+
+.file-upload-wrapper label i {
+    font-size: 1.5rem;
+    margin-right: 10px;
+    color: var(--accent-color);
+}
+
+.file-upload-wrapper label span {
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+.doubt-form-container .btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1rem;
+}
+
+.solution-container {
+    max-width: 800px;
+    margin: 40px auto;
+    background: var(--white-color);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    text-align: left;
+}
+
+.solution-content h3 {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 10px;
+}
+
+.solution-content h4 {
+    font-size: 1.4rem;
+    color: var(--secondary-color);
+    margin-top: 20px;
+}
+
+.solution-content p, .solution-content li {
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+/* Loader Animation */
+.loader {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid var(--accent-color);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+    margin: 40px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+
+
+
+/* this is the new styling for doubt.ejs file */
+
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary-color: #0A2647;
+    --secondary-color: #144272;
+    --accent-color: #205295;
+    --text-highlight-color: #2C74B3;
+    --background-color: #F8F9FA;
+    --text-color: #333;
+    --white-color: #FFFFFF;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* --- Add all your other base styles here (navbar, hero, footer, etc.) --- */
+
+/* --- New Styles for Doubt Page --- */
+.hidden { display: none; }
+.doubt-container { text-align: center; padding: 40px 20px; }
+.image-preview-container {
+    width: 100%;
+    max-width: 500px;
+    height: 300px;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px auto;
+    position: relative;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+.image-preview-container.dragover {
+    border-color: var(--accent-color);
+    background-color: #e9f1f8;
+}
+#image-preview {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+}
+#placeholder { text-align: center; color: #888; }
+#placeholder i { font-size: 3rem; margin-bottom: 10px; }
+.file-input-label { cursor: pointer; }
+#file-name { margin-top: 10px; font-style: italic; color: #555; }
+#result-container, #error-container {
+    text-align: left;
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+}
+#error-container {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
+}
+.controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+.loader {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid var(--accent-color);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+    margin: 40px auto;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+/* This is the style for the generator route */
+/* --- Styles for Question Generator Page --- */
+.generator-container {
+    padding: 40px 20px;
+    text-align: center;
+}
+.generator-controls {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 30px;
+    background: var(--white-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    align-items: end;
+}
+.control-group {
+    text-align: left;
+}
+.control-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--secondary-color);
+}
+.form-select, .form-input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+}
+.generator-controls .btn {
+    grid-column: 1 / -1; /* Make button span full width */
+    margin-top: 10px;
+}
+
+
+
+
+
+/* --- Styles for Generated Question Blocks --- */
+.question-block {
+    background-color: var(--white-color);
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.question-block h4 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.question-content {
+    margin-bottom: 20px;
+}
+
+.show-answer-btn {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.show-answer-btn:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+.solution-block {
+    background-color: #f8f9fa;
+    border-top: 2px solid var(--accent-color);
+    padding: 15px;
+    border-radius: 0 0 8px 8px;
+}
+
+
+
+
+/* --- Styles for Revision Tool Page --- */
+.revision-container {
+    padding: 40px 20px;
+    text-align: center;
+}
+.revision-tool {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 30px;
+    background: var(--white-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+.input-area {
+    text-align: left;
+    margin-bottom: 20px;
+}
+.input-area label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--secondary-color);
+}
+#user-input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+}
+.tool-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+.tab-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+.tab-btn.active {
+    color: var(--accent-color);
+    border-bottom-color: var(--accent-color);
+}
+.revision-tool .btn {
+    width: 100%;
+}
+/* Flashcard Styles */
+.flashcard {
+    background-color: transparent;
+    width: 220px;
+    height: 150px;
+    perspective: 1000px;
+    margin: 10px;
+    display: inline-block;
+    cursor: pointer;
+}
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: 10px;
+}
+.flashcard.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    border-radius: 10px;
+}
+.card-front {
+    background-color: #f8f9fa;
+    color: black;
+}
+.card-back {
+    background-color: var(--secondary-color);
+    color: white;
+    transform: rotateY(180deg);
+}
+
+
+
+/* --- Improved Styles for Revision Tool Output --- */
+
+/* General container for text results */
+.text-result-container {
+    padding: 25px;
+    border-left: 5px solid var(--accent-color);
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    text-align: left;
+    line-height: 1.7;
+}
+
+/* Specific styling for Mnemonics */
+.mnemonic-result {
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+    position: relative;
+    padding-left: 45px; /* Space for the icon */
+}
+
+.mnemonic-result::before {
+    content: '\f0eb'; /* Font Awesome lightbulb icon */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    left: 15px;
+    top: 25px;
+    font-size: 1.5rem;
+    color: var(--accent-color);
+}
+
+/* Specific styling for Summaries */
+.summary-result strong {
+    color: var(--primary-color);
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+
+
+
+/* --- Styles for AI Mock Test Page --- */
+.gradient-text {
+    background-image: linear-gradient(to right, #4f46e5, #7c3aed);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.screen {
+    transition: opacity 0.5s ease-in-out;
+}
+
+.difficulty-btn.selected {
+    background-color: #4f46e5;
+    color: white;
+    border-color: #4f46e5;
+    box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.39);
+}
+
+/* Overriding Tailwind for body to use your theme's background */
+body {
+    background-color: var(--background-color);
+}
