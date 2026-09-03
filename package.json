@@ -6,15 +6,20 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
-    "test": "jest --runInBand"
+    "test": "jest --runInBand",
+    "postinstall": "prisma skills sync || exit 0"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
+    "@prisma/adapter-pg": "^7.10.0",
+    "@prisma/client": "^7.10.0",
     "dotenv": "^17.2.1",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "express-ejs-layouts": "^2.5.1",
-    "multer": "^2.0.2"
+    "multer": "^2.0.2",
+    "pg": "^8.23.0",
+    "prisma": "^7.10.0"
   },
   "devDependencies": {
     "jest": "^29.7.0",
