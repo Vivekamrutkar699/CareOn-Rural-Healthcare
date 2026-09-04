@@ -1,88 +1,180 @@
-<div class="container py-4">
+<div class="container mx-auto py-4">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+
         <div>
-            <h1>Patient Management</h1>
-            <p class="text-muted">
+            <h1 class="text-3xl font-bold text-gray-800">
+                Patient Management
+            </h1>
+
+            <p class="text-gray-500 mt-1">
                 Manage patient information and healthcare records.
             </p>
         </div>
 
         <button
-            class="btn btn-primary"
             id="addPatientBtn"
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#patientModal"
+            class="inline-flex items-center justify-center gap-2 px-5 py-3
+                   bg-blue-600 text-white rounded-lg
+                   hover:bg-blue-700 transition shadow-sm"
         >
-            + Add Patient
+            <i class="fa-solid fa-user-plus"></i>
+            Add Patient
         </button>
+
     </div>
 
-    <!-- Search -->
-    <div class="card shadow-sm mb-4">
-        <div class="card-body">
 
-            <label for="patientSearch" class="form-label">
-                Search Patients
-            </label>
+    <!-- Search Card -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-6">
+
+        <div class="flex items-center gap-3 mb-3">
+
+            <div class="w-10 h-10 rounded-lg bg-blue-100
+                        flex items-center justify-center">
+                <i class="fa-solid fa-magnifying-glass text-blue-600"></i>
+            </div>
+
+            <div>
+                <h2 class="font-semibold text-gray-800">
+                    Search Patients
+                </h2>
+
+                <p class="text-sm text-gray-500">
+                    Search by patient ID, name or phone number.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="relative">
+
+            <i class="fa-solid fa-search absolute left-4 top-1/2
+                      -translate-y-1/2 text-gray-400"></i>
 
             <input
                 type="text"
                 id="patientSearch"
-                class="form-control"
-                placeholder="Search by patient name or phone number..."
+                class="w-full pl-11 pr-4 py-3 border border-gray-200
+                       rounded-lg outline-none
+                       focus:ring-2 focus:ring-blue-500
+                       focus:border-blue-500"
+                placeholder="Search patients..."
             >
 
         </div>
+
     </div>
 
-    <!-- Patient Table -->
-    <div class="card shadow-sm">
 
-        <div class="card-body">
+    <!-- Patient Table Card -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
 
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="mb-0">Registered Patients</h4>
+        <!-- Table Header -->
+        <div class="px-6 py-5 border-b border-gray-100">
+
+            <div class="flex flex-col sm:flex-row
+                        sm:items-center sm:justify-between gap-3">
+
+                <div>
+                    <h2 class="text-xl font-semibold text-gray-800">
+                        Registered Patients
+                    </h2>
+
+                    <p class="text-sm text-gray-500 mt-1">
+                        Patient records stored in CareOn.
+                    </p>
+                </div>
 
                 <span
                     id="patientCount"
-                    class="badge bg-secondary"
+                    class="inline-flex items-center justify-center
+                           px-3 py-1.5 rounded-full
+                           bg-blue-100 text-blue-700
+                           text-sm font-medium"
                 >
                     0 Patients
                 </span>
+
             </div>
 
-            <div id="patientMessage"></div>
+        </div>
 
-            <div class="table-responsive">
 
-                <table class="table table-hover">
+        <!-- Messages -->
+        <div
+            id="patientMessage"
+            class="px-6 pt-4"
+        ></div>
 
-                    <thead>
-                        <tr>
-                            <th>Patient ID</th>
-                            <th>Name</th>
-                            <th>Age</th>
-                            <th>Gender</th>
-                            <th>Phone</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
 
-                    <tbody id="patientTableBody">
+        <!-- Table -->
+        <div class="overflow-x-auto">
 
-                        <tr>
-                            <td colspan="6" class="text-center text-muted">
+            <table class="w-full text-left">
+
+                <thead class="bg-gray-50 border-b border-gray-100">
+
+                    <tr>
+
+                        <th class="px-6 py-4 text-xs font-semibold
+                                   text-gray-500 uppercase tracking-wide">
+                            Patient ID
+                        </th>
+
+                        <th class="px-6 py-4 text-xs font-semibold
+                                   text-gray-500 uppercase tracking-wide">
+                            Patient
+                        </th>
+
+                        <th class="px-6 py-4 text-xs font-semibold
+                                   text-gray-500 uppercase tracking-wide">
+                            Age
+                        </th>
+
+                        <th class="px-6 py-4 text-xs font-semibold
+                                   text-gray-500 uppercase tracking-wide">
+                            Gender
+                        </th>
+
+                        <th class="px-6 py-4 text-xs font-semibold
+                                   text-gray-500 uppercase tracking-wide">
+                            Phone
+                        </th>
+
+                        <th class="px-6 py-4 text-xs font-semibold
+                                   text-gray-500 uppercase tracking-wide">
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody
+                    id="patientTableBody"
+                    class="divide-y divide-gray-100"
+                >
+
+                    <tr>
+                        <td
+                            colspan="6"
+                            class="px-6 py-12 text-center text-gray-500"
+                        >
+                            <i class="fa-solid fa-spinner fa-spin text-blue-500 text-xl mb-3"></i>
+
+                            <p>
                                 Loading patients...
-                            </td>
-                        </tr>
+                            </p>
+                        </td>
+                    </tr>
 
-                    </tbody>
+                </tbody>
 
-                </table>
-
-            </div>
+            </table>
 
         </div>
 
@@ -93,260 +185,349 @@
 
 <!-- Add Patient Modal -->
 <div
-    class="modal fade"
     id="patientModal"
-    tabindex="-1"
-    aria-labelledby="patientModalLabel"
-    aria-hidden="true"
+    class="hidden fixed inset-0 z-50
+           bg-black/50 backdrop-blur-sm
+           items-center justify-center p-4"
 >
 
-    <div class="modal-dialog modal-lg">
+    <div
+        class="bg-white rounded-2xl shadow-xl
+               w-full max-w-3xl max-h-[90vh]
+               overflow-y-auto"
+    >
 
-        <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between
+                    px-6 py-5 border-b border-gray-100">
 
-            <div class="modal-header">
+            <div>
 
-                <h5
-                    class="modal-title"
-                    id="patientModalLabel"
-                >
+                <h2 class="text-xl font-semibold text-gray-800">
                     Add New Patient
-                </h5>
+                </h2>
 
-                <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                ></button>
+                <p class="text-sm text-gray-500 mt-1">
+                    Enter the patient's basic information.
+                </p>
 
             </div>
 
-            <form id="patientForm">
+            <button
+                type="button"
+                id="closePatientModal"
+                class="w-9 h-9 rounded-lg
+                       flex items-center justify-center
+                       text-gray-500 hover:bg-gray-100
+                       hover:text-gray-700 transition"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
 
-                <div class="modal-body">
+        </div>
 
-                    <div id="formMessage"></div>
 
-                    <div class="row g-3">
+        <!-- Form -->
+        <form id="patientForm">
 
-                        <!-- Patient ID -->
-                        <div class="col-md-6">
+            <div class="p-6">
 
-                            <label
-                                for="patientId"
-                                class="form-label"
-                            >
-                                Patient ID *
-                            </label>
+                <div id="formMessage"></div>
 
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="patientId"
-                                name="patientId"
-                                placeholder="e.g. PAT-001"
-                                required
-                            >
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-                        </div>
+                    <!-- Patient ID -->
+                    <div>
 
-                        <!-- Gender -->
-                        <div class="col-md-6">
+                        <label
+                            for="patientId"
+                            class="block text-sm font-medium
+                                   text-gray-700 mb-2"
+                        >
+                            Patient ID *
+                        </label>
 
-                            <label
-                                for="gender"
-                                class="form-label"
-                            >
-                                Gender
-                            </label>
+                        <input
+                            type="text"
+                            id="patientId"
+                            name="patientId"
+                            required
+                            placeholder="e.g. PAT-004"
+                            class="w-full px-4 py-3 border border-gray-200
+                                   rounded-lg outline-none
+                                   focus:ring-2 focus:ring-blue-500
+                                   focus:border-blue-500"
+                        >
 
-                            <select
-                                class="form-select"
-                                id="gender"
-                                name="gender"
-                            >
-                                <option value="">Select Gender</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Other">Other</option>
-                            </select>
+                    </div>
 
-                        </div>
 
-                        <!-- First Name -->
-                        <div class="col-md-6">
+                    <!-- Gender -->
+                    <div>
 
-                            <label
-                                for="firstName"
-                                class="form-label"
-                            >
-                                First Name *
-                            </label>
+                        <label
+                            for="gender"
+                            class="block text-sm font-medium
+                                   text-gray-700 mb-2"
+                        >
+                            Gender
+                        </label>
 
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="firstName"
-                                name="firstName"
-                                required
-                            >
+                        <select
+                            id="gender"
+                            name="gender"
+                            class="w-full px-4 py-3 border border-gray-200
+                                   rounded-lg bg-white outline-none
+                                   focus:ring-2 focus:ring-blue-500
+                                   focus:border-blue-500"
+                        >
 
-                        </div>
+                            <option value="">
+                                Select Gender
+                            </option>
 
-                        <!-- Last Name -->
-                        <div class="col-md-6">
+                            <option value="Male">
+                                Male
+                            </option>
 
-                            <label
-                                for="lastName"
-                                class="form-label"
-                            >
-                                Last Name *
-                            </label>
+                            <option value="Female">
+                                Female
+                            </option>
 
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="lastName"
-                                name="lastName"
-                                required
-                            >
+                            <option value="Other">
+                                Other
+                            </option>
 
-                        </div>
+                        </select>
 
-                        <!-- Date of Birth -->
-                        <div class="col-md-6">
+                    </div>
 
-                            <label
-                                for="dateOfBirth"
-                                class="form-label"
-                            >
-                                Date of Birth
-                            </label>
 
-                            <input
-                                type="date"
-                                class="form-control"
-                                id="dateOfBirth"
-                                name="dateOfBirth"
-                            >
+                    <!-- First Name -->
+                    <div>
 
-                        </div>
+                        <label
+                            for="firstName"
+                            class="block text-sm font-medium
+                                   text-gray-700 mb-2"
+                        >
+                            First Name *
+                        </label>
 
-                        <!-- Phone -->
-                        <div class="col-md-6">
+                        <input
+                            type="text"
+                            id="firstName"
+                            name="firstName"
+                            required
+                            placeholder="First name"
+                            class="w-full px-4 py-3 border border-gray-200
+                                   rounded-lg outline-none
+                                   focus:ring-2 focus:ring-blue-500
+                                   focus:border-blue-500"
+                        >
 
-                            <label
-                                for="phone"
-                                class="form-label"
-                            >
-                                Phone *
-                            </label>
+                    </div>
 
-                            <input
-                                type="tel"
-                                class="form-control"
-                                id="phone"
-                                name="phone"
-                                placeholder="10-digit mobile number"
-                                required
-                            >
 
-                        </div>
+                    <!-- Last Name -->
+                    <div>
 
-                        <!-- Email -->
-                        <div class="col-md-6">
+                        <label
+                            for="lastName"
+                            class="block text-sm font-medium
+                                   text-gray-700 mb-2"
+                        >
+                            Last Name *
+                        </label>
 
-                            <label
-                                for="email"
-                                class="form-label"
-                            >
-                                Email
-                            </label>
+                        <input
+                            type="text"
+                            id="lastName"
+                            name="lastName"
+                            required
+                            placeholder="Last name"
+                            class="w-full px-4 py-3 border border-gray-200
+                                   rounded-lg outline-none
+                                   focus:ring-2 focus:ring-blue-500
+                                   focus:border-blue-500"
+                        >
 
-                            <input
-                                type="email"
-                                class="form-control"
-                                id="email"
-                                name="email"
-                            >
+                    </div>
 
-                        </div>
 
-                        <!-- Blood Group -->
-                        <div class="col-md-6">
+                    <!-- Date of Birth -->
+                    <div>
 
-                            <label
-                                for="bloodGroup"
-                                class="form-label"
-                            >
-                                Blood Group
-                            </label>
+                        <label
+                            for="dateOfBirth"
+                            class="block text-sm font-medium
+                                   text-gray-700 mb-2"
+                        >
+                            Date of Birth
+                        </label>
 
-                            <select
-                                class="form-select"
-                                id="bloodGroup"
-                                name="bloodGroup"
-                            >
-                                <option value="">Select Blood Group</option>
-                                <option value="A+">A+</option>
-                                <option value="A-">A-</option>
-                                <option value="B+">B+</option>
-                                <option value="B-">B-</option>
-                                <option value="AB+">AB+</option>
-                                <option value="AB-">AB-</option>
-                                <option value="O+">O+</option>
-                                <option value="O-">O-</option>
-                            </select>
+                        <input
+                            type="date"
+                            id="dateOfBirth"
+                            name="dateOfBirth"
+                            class="w-full px-4 py-3 border border-gray-200
+                                   rounded-lg outline-none
+                                   focus:ring-2 focus:ring-blue-500
+                                   focus:border-blue-500"
+                        >
 
-                        </div>
+                    </div>
 
-                        <!-- Address -->
-                        <div class="col-12">
 
-                            <label
-                                for="address"
-                                class="form-label"
-                            >
-                                Address
-                            </label>
+                    <!-- Phone -->
+                    <div>
 
-                            <textarea
-                                class="form-control"
-                                id="address"
-                                name="address"
-                                rows="2"
-                            ></textarea>
+                        <label
+                            for="phone"
+                            class="block text-sm font-medium
+                                   text-gray-700 mb-2"
+                        >
+                            Phone *
+                        </label>
 
-                        </div>
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            required
+                            placeholder="10-digit mobile number"
+                            class="w-full px-4 py-3 border border-gray-200
+                                   rounded-lg outline-none
+                                   focus:ring-2 focus:ring-blue-500
+                                   focus:border-blue-500"
+                        >
+
+                    </div>
+
+
+                    <!-- Email -->
+                    <div>
+
+                        <label
+                            for="email"
+                            class="block text-sm font-medium
+                                   text-gray-700 mb-2"
+                        >
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="patient@example.com"
+                            class="w-full px-4 py-3 border border-gray-200
+                                   rounded-lg outline-none
+                                   focus:ring-2 focus:ring-blue-500
+                                   focus:border-blue-500"
+                        >
+
+                    </div>
+
+
+                    <!-- Blood Group -->
+                    <div>
+
+                        <label
+                            for="bloodGroup"
+                            class="block text-sm font-medium
+                                   text-gray-700 mb-2"
+                        >
+                            Blood Group
+                        </label>
+
+                        <select
+                            id="bloodGroup"
+                            name="bloodGroup"
+                            class="w-full px-4 py-3 border border-gray-200
+                                   rounded-lg bg-white outline-none
+                                   focus:ring-2 focus:ring-blue-500
+                                   focus:border-blue-500"
+                        >
+
+                            <option value="">
+                                Select Blood Group
+                            </option>
+
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Address -->
+                    <div class="md:col-span-2">
+
+                        <label
+                            for="address"
+                            class="block text-sm font-medium
+                                   text-gray-700 mb-2"
+                        >
+                            Address
+                        </label>
+
+                        <textarea
+                            id="address"
+                            name="address"
+                            rows="3"
+                            placeholder="Patient address"
+                            class="w-full px-4 py-3 border border-gray-200
+                                   rounded-lg outline-none resize-none
+                                   focus:ring-2 focus:ring-blue-500
+                                   focus:border-blue-500"
+                        ></textarea>
 
                     </div>
 
                 </div>
 
-                <div class="modal-footer">
+            </div>
 
-                    <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal"
-                    >
-                        Cancel
-                    </button>
 
-                    <button
-                        type="submit"
-                        class="btn btn-primary"
-                        id="savePatientBtn"
-                    >
-                        Save Patient
-                    </button>
+            <!-- Modal Footer -->
+            <div class="flex justify-end gap-3
+                        px-6 py-4 bg-gray-50
+                        border-t border-gray-100">
 
-                </div>
+                <button
+                    type="button"
+                    id="cancelPatientModal"
+                    class="px-5 py-2.5 rounded-lg
+                           border border-gray-200
+                           text-gray-700
+                           hover:bg-gray-100 transition"
+                >
+                    Cancel
+                </button>
 
-            </form>
+                <button
+                    type="submit"
+                    id="savePatientBtn"
+                    class="inline-flex items-center gap-2
+                           px-5 py-2.5 rounded-lg
+                           bg-blue-600 text-white
+                           hover:bg-blue-700 transition"
+                >
+                    <i class="fa-solid fa-user-plus"></i>
+                    Save Patient
+                </button>
 
-        </div>
+            </div>
+
+        </form>
 
     </div>
 
