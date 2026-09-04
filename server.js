@@ -24,9 +24,11 @@ app.set("layout", "layout/boilerplate");
 // Routes
 const appRoutes = require("./routes/appRoutes");
 const patientRoutes = require("./routes/patientRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
 
 app.use("/", appRoutes);
 app.use("/api/patients", patientRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 // 404 handler
 app.use((req, res) => {

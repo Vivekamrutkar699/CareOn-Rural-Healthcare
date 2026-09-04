@@ -1,136 +1,259 @@
-<div class="container py-4">
+<div class="container mx-auto py-4">
 
-    <div class="mb-4">
-        <h1>CareOn Dashboard</h1>
-        <p class="text-muted">
+    <!-- Dashboard Header -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-800">
+            CareOn Dashboard
+        </h1>
+
+        <p class="text-gray-500 mt-1">
             AI-powered rural healthcare management platform
         </p>
     </div>
 
+
     <!-- Statistics -->
-    <div class="row g-4 mb-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
 
-        <div class="col-md-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">Total Patients</h6>
-                    <h2>0</h2>
-                    <p class="mb-0">Registered patients</p>
+        <!-- Total Patients -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-500">
+                        Total Patients
+                    </p>
+
+                    <h2
+                        id="totalPatients"
+                        class="text-3xl font-bold text-gray-800 mt-2"
+                    >
+                        Loading...
+                    </h2>
+
+                    <p class="text-sm text-gray-500 mt-1">
+                        Registered patients
+                    </p>
+                </div>
+
+                <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
+                    <i class="fa-solid fa-user-injured text-blue-600 text-xl"></i>
                 </div>
             </div>
+
         </div>
 
-        <div class="col-md-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">Appointments</h6>
-                    <h2>0</h2>
-                    <p class="mb-0">Upcoming appointments</p>
+
+        <!-- Appointments -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-500">
+                        Appointments
+                    </p>
+
+                    <h2 class="text-3xl font-bold text-gray-800 mt-2">
+                        0
+                    </h2>
+
+                    <p class="text-sm text-gray-500 mt-1">
+                        Upcoming appointments
+                    </p>
+                </div>
+
+                <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
+                    <i class="fa-solid fa-calendar-check text-green-600 text-xl"></i>
                 </div>
             </div>
+
         </div>
 
-        <div class="col-md-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">AI Analyses</h6>
-                    <h2>0</h2>
-                    <p class="mb-0">Health analyses</p>
+
+        <!-- AI Analyses -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-500">
+                        AI Analyses
+                    </p>
+
+                    <h2 class="text-3xl font-bold text-gray-800 mt-2">
+                        0
+                    </h2>
+
+                    <p class="text-sm text-gray-500 mt-1">
+                        Health analyses
+                    </p>
+                </div>
+
+                <div class="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center">
+                    <i class="fa-solid fa-robot text-purple-600 text-xl"></i>
                 </div>
             </div>
+
         </div>
 
-        <div class="col-md-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">Medicines</h6>
-                    <h2>0</h2>
-                    <p class="mb-0">Medicine records</p>
+
+        <!-- Medicines -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-500">
+                        Medicines
+                    </p>
+
+                    <h2 class="text-3xl font-bold text-gray-800 mt-2">
+                        0
+                    </h2>
+
+                    <p class="text-sm text-gray-500 mt-1">
+                        Medicine records
+                    </p>
+                </div>
+
+                <div class="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center">
+                    <i class="fa-solid fa-pills text-orange-600 text-xl"></i>
                 </div>
             </div>
+
         </div>
 
     </div>
 
+
     <!-- Main Features -->
-    <div class="row g-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-        <div class="col-md-6">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
+        <!-- Patient Management -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
 
-                    <h4>Patient Management</h4>
+            <div class="flex items-center gap-4 mb-4">
 
-                    <p class="text-muted">
-                        Register patients, maintain health records and
-                        access patient information.
-                    </p>
-
-                    <a href="/patients" class="btn btn-primary">
-                        Manage Patients
-                    </a>
-
+                <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
+                    <i class="fa-solid fa-users text-blue-600 text-xl"></i>
                 </div>
+
+                <h2 class="text-xl font-semibold text-gray-800">
+                    Patient Management
+                </h2>
+
             </div>
+
+            <p class="text-gray-500 mb-5">
+                Register patients, maintain health records and
+                access patient information.
+            </p>
+
+            <a
+                href="/patients"
+                class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            >
+                Manage Patients
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
         </div>
 
-        <div class="col-md-6">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
 
-                    <h4>AI Health Assistant</h4>
+        <!-- AI Health Assistant -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
 
-                    <p class="text-muted">
-                        Analyze health images and medical reports using
-                        Gemini AI.
-                    </p>
+            <div class="flex items-center gap-4 mb-4">
 
-                    <a href="/ai-assistant" class="btn btn-primary">
-                        Open AI Assistant
-                    </a>
-
+                <div class="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center">
+                    <i class="fa-solid fa-robot text-purple-600 text-xl"></i>
                 </div>
+
+                <h2 class="text-xl font-semibold text-gray-800">
+                    AI Health Assistant
+                </h2>
+
             </div>
+
+            <p class="text-gray-500 mb-5">
+                Analyze health images and medical reports using
+                Gemini AI.
+            </p>
+
+            <a
+                href="/ai-assistant"
+                class="inline-flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
+            >
+                Open AI Assistant
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
         </div>
 
-        <div class="col-md-6">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
 
-                    <h4>Telemedicine</h4>
+        <!-- Telemedicine -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
 
-                    <p class="text-muted">
-                        Connect patients with healthcare professionals
-                        through remote consultations.
-                    </p>
+            <div class="flex items-center gap-4 mb-4">
 
-                    <a href="/telemedicine" class="btn btn-primary">
-                        Open Telemedicine
-                    </a>
-
+                <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
+                    <i class="fa-solid fa-video text-green-600 text-xl"></i>
                 </div>
+
+                <h2 class="text-xl font-semibold text-gray-800">
+                    Telemedicine
+                </h2>
+
             </div>
+
+            <p class="text-gray-500 mb-5">
+                Connect patients with healthcare professionals
+                through remote consultations.
+            </p>
+
+            <a
+                href="/telemedicine"
+                class="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+            >
+                Open Telemedicine
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
         </div>
 
-        <div class="col-md-6">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
 
-                    <h4>Medicine Management</h4>
+        <!-- Medicine Management -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
 
-                    <p class="text-muted">
-                        Manage medicine availability and healthcare
-                        delivery information.
-                    </p>
+            <div class="flex items-center gap-4 mb-4">
 
-                    <a href="/medicine" class="btn btn-primary">
-                        Manage Medicines
-                    </a>
-
+                <div class="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center">
+                    <i class="fa-solid fa-pills text-orange-600 text-xl"></i>
                 </div>
+
+                <h2 class="text-xl font-semibold text-gray-800">
+                    Medicine Management
+                </h2>
+
             </div>
+
+            <p class="text-gray-500 mb-5">
+                Manage medicine availability and healthcare
+                delivery information.
+            </p>
+
+            <a
+                href="/medicine"
+                class="inline-flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition"
+            >
+                Manage Medicines
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
         </div>
 
     </div>
 
 </div>
+
+
+<!-- Dashboard JavaScript -->
+<script src="/js/dashboard.js"></script>
