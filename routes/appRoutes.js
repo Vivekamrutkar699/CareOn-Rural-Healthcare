@@ -1,6 +1,6 @@
 const express = require("express");
 const multer = require("multer");
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { analyzeHealthImage } = require("../services/geminiService");
 
 const router = express.Router();
 
@@ -16,33 +16,6 @@ const upload = multer({
         fileSize: 5 * 1024 * 1024, // 5 MB
     },
 });
-
-// -----------------------------
-// Gemini AI Configuration
-// -----------------------------
-
-if (!process.env.GEMINI_API_KEY) {
-    console.error(
-        "GEMINI_API_KEY is not configured. Please check your .env file."
-    );
-}
-
-const genAI = process.env.GEMINI_API_KEY
-    ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
-    : null;
-
-// -----------------------------
-// Helper: Convert Image
-// -----------------------------
-
-function bufferToGenerativePart(buffer, mimeType) {
-    return {
-        inlineData: {
-            data: buffer.toString("base64"),
-            mimeType,
-        },
-    };
-}
 
 // -----------------------------
 // Home
@@ -112,130 +85,46 @@ router.post(
     "/analyze-health-image",
     upload.single("healthImage"),
     async (req, res) => {
-        if (!req.file) {
-            return res.status(400).json({
-                success: false,
-                error: "No image file uploaded.",
-            });
-        }
-
-        if (!genAI) {
-            return res.status(500).json({
-                success: false,
-                error: "AI service is not configured.",
-            });
-        }
-
-        const analysisType = req.body.analysisType;
-
-        let prompt;
-
-        // -----------------------------
-        // Skin Analysis
-        // -----------------------------
-
-        if (analysisType === "skin") {
-            prompt = `
-You are an AI health assistant supporting people in rural areas.
-
-Analyze the uploaded image carefully.
-
-Provide the response using these sections:
-
-1. What We See
-Describe only visible characteristics such as:
-- color
-- shape
-- texture
-- approximate size
-- location
-- visible swelling or irritation
-
-2. Possible Conditions
-List 2-3 possible common conditions that could sometimes look similar.
-Do NOT claim that the image provides a definite diagnosis.
-
-3. What To Do Next
-Give safe general steps the person can take.
-Do not prescribe medication or provide a definitive treatment plan.
-
-4. When To Seek Medical Help
-Mention warning signs that should require evaluation by a qualified healthcare professional.
-
-End with:
-
-IMPORTANT: This AI-generated information is for educational purposes only and is not a medical diagnosis. A qualified doctor or healthcare professional should evaluate the condition and provide medical advice.
-`;
-        }
-
-        // -----------------------------
-        // Medical Report Analysis
-        // -----------------------------
-
-        else if (analysisType === "report") {
-            prompt = `
-You are an AI health assistant.
-
-Analyze the uploaded medical report carefully.
-
-Provide the response using these sections:
-
-1. Report Summary
-Identify what type of report it appears to be and what it is generally used to evaluate.
-
-2. Key Findings
-List the important values, observations, or findings visible in the report.
-
-3. Understanding Abnormal Values
-For values that appear outside the reference range:
-- identify the value
-- mention the reference range if visible
-- explain in simple language what the test generally measures
-- explain that abnormal values can have multiple causes
-
-Do not diagnose a disease based only on the report.
-
-4. Questions For Your Doctor
-Suggest useful questions the patient can ask a qualified healthcare professional.
-
-End with:
-
-IMPORTANT: This AI-generated explanation is for educational purposes only and is not a medical diagnosis. Do not start, stop, or change medication based only on this analysis. A qualified healthcare professional should interpret the report in the context of the patient's symptoms and medical history.
-`;
-        }
-
-        else {
-            return res.status(400).json({
-                success: false,
-                error: "Invalid analysis type.",
-            });
-        }
-
         try {
-            const model = genAI.getGenerativeModel({
-                model: "gemini-2.5-flash",
-            });
+            // -----------------------------
+            // Validate uploaded file
+            // -----------------------------
 
-            const imagePart = bufferToGenerativePart(
+            if (!req.file) {
+                return res.status(400).json({
+                    success: false,
+                    error: "No image file uploaded.",
+                });
+            }
+
+            // -----------------------------
+            // Validate analysis type
+            // -----------------------------
+
+            const analysisType = req.body.analysisType;
+
+            if (!["skin", "report"].includes(analysisType)) {
+                return res.status(400).json({
+                    success: false,
+                    error: "Invalid analysis type.",
+                });
+            }
+
+            // -----------------------------
+            // Analyze image using Gemini
+            // -----------------------------
+
+            const analysis = await analyzeHealthImage(
                 req.file.buffer,
-                req.file.mimetype
+                req.file.mimetype,
+                analysisType
             );
-
-            const result = await model.generateContent([
-                prompt,
-                imagePart,
-            ]);
-
-            const response = await result.response;
-            const text = response.text();
 
             return res.json({
                 success: true,
-                analysis: text,
+                analysis,
             });
-        }
-
-        catch (error) {
+        } catch (error) {
             console.error("Gemini API Error:", error);
 
             return res.status(500).json({
@@ -245,9 +134,5 @@ IMPORTANT: This AI-generated explanation is for educational purposes only and is
         }
     }
 );
-
-// -----------------------------
-// 404 / Temporary Test Endpoint
-// -----------------------------
 
 module.exports = router;
