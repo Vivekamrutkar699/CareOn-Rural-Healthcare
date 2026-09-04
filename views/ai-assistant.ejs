@@ -1,118 +1,463 @@
-<div class="container py-4">
+<div class="container mx-auto py-4">
 
-    <div class="mb-4">
-        <h1>AI Health Assistant</h1>
-        <p class="text-muted">
-            Use AI to understand health images and medical reports.
-        </p>
+    <!-- Header -->
+    <div class="mb-8">
+        <div class="flex items-center gap-4">
+
+            <div class="w-14 h-14 rounded-xl bg-purple-100
+                        flex items-center justify-center">
+
+                <i class="fa-solid fa-robot
+                          text-purple-600 text-2xl"></i>
+
+            </div>
+
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800">
+                    AI Health Assistant
+                </h1>
+
+                <p class="text-gray-500 mt-1">
+                    Use AI to understand health images and medical reports.
+                </p>
+            </div>
+
+        </div>
     </div>
 
-    <div class="row g-4">
 
-        <!-- Skin Analysis -->
-        <div class="col-md-6">
+    <!-- AI Analysis Cards -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-            <div class="card shadow-sm h-100">
 
-                <div class="card-body">
+        <!-- Skin Image Analysis -->
+        <div class="bg-white rounded-xl shadow-sm
+                    border border-gray-100 overflow-hidden">
 
-                    <h3>Skin Image Analysis</h3>
+            <!-- Card Header -->
+            <div class="px-6 py-5 border-b border-gray-100">
 
-                    <p class="text-muted">
-                        Upload an image of a visible skin condition
-                        for an AI-assisted explanation.
-                    </p>
+                <div class="flex items-center gap-4">
 
-                    <form
-                        id="skinAnalysisForm"
-                        enctype="multipart/form-data"
+                    <div class="w-12 h-12 rounded-lg bg-blue-100
+                                flex items-center justify-center">
+
+                        <i class="fa-solid fa-image
+                                  text-blue-600 text-xl"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2 class="text-xl font-semibold text-gray-800">
+                            Skin Image Analysis
+                        </h2>
+
+                        <p class="text-sm text-gray-500 mt-1">
+                            AI-assisted visual explanation
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Card Body -->
+            <div class="p-6">
+
+                <p class="text-gray-500 mb-6">
+                    Upload an image of a visible skin condition
+                    for an AI-assisted educational explanation.
+                </p>
+
+
+                <form
+                    id="skinAnalysisForm"
+                    enctype="multipart/form-data"
+                >
+
+                    <input
+                        type="hidden"
+                        name="analysisType"
+                        value="skin"
                     >
+
+
+                    <!-- File Upload -->
+                    <div
+                        id="skinDropZone"
+                        class="border-2 border-dashed
+                               border-gray-200 rounded-xl
+                               p-8 text-center
+                               hover:border-blue-400
+                               hover:bg-blue-50/30
+                               transition cursor-pointer"
+                    >
+
+                        <i class="fa-solid fa-cloud-arrow-up
+                                  text-blue-500 text-3xl mb-3"></i>
+
+                        <p class="font-medium text-gray-700">
+                            Upload skin image
+                        </p>
+
+                        <p class="text-sm text-gray-500 mt-1">
+                            JPG, PNG or other supported image formats
+                        </p>
+
+                        <label
+                            for="skinImage"
+                            class="inline-flex items-center gap-2
+                                   mt-4 px-4 py-2
+                                   bg-blue-600 text-white
+                                   rounded-lg
+                                   hover:bg-blue-700
+                                   transition cursor-pointer"
+                        >
+                            <i class="fa-solid fa-folder-open"></i>
+                            Choose Image
+                        </label>
 
                         <input
                             type="file"
                             name="healthImage"
                             id="skinImage"
-                            class="form-control mb-3"
+                            class="hidden"
                             accept="image/*"
                             required
                         >
 
-                        <input
-                            type="hidden"
-                            name="analysisType"
-                            value="skin"
+                        <p
+                            id="skinFileName"
+                            class="text-sm text-gray-500 mt-3"
                         >
+                            No file selected
+                        </p>
 
-                        <button
-                            type="submit"
-                            class="btn btn-primary"
-                        >
-                            Analyze Image
-                        </button>
+                    </div>
 
-                    </form>
 
+                    <!-- Image Preview -->
                     <div
-                        id="skinResult"
-                        class="mt-4"
-                        style="display: none;"
-                    ></div>
+                        id="skinPreviewContainer"
+                        class="hidden mt-5"
+                    >
 
-                </div>
+                        <p class="text-sm font-medium text-gray-700 mb-2">
+                            Image Preview
+                        </p>
+
+                        <img
+                            id="skinPreview"
+                            src=""
+                            alt="Selected skin image preview"
+                            class="w-full max-h-64 object-contain
+                                   rounded-lg border border-gray-200
+                                   bg-gray-50"
+                        >
+
+                    </div>
+
+
+                    <!-- Analyze Button -->
+                    <button
+                        type="submit"
+                        id="skinAnalyzeButton"
+                        class="w-full mt-6
+                               inline-flex items-center
+                               justify-center gap-2
+                               px-5 py-3
+                               bg-purple-600 text-white
+                               rounded-lg
+                               hover:bg-purple-700
+                               transition shadow-sm"
+                    >
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        Analyze Image
+                    </button>
+
+                </form>
+
+
+                <!-- Result -->
+                <div
+                    id="skinResult"
+                    class="hidden mt-6"
+                ></div>
 
             </div>
 
         </div>
 
 
-        <!-- Medical Report -->
-        <div class="col-md-6">
 
-            <div class="card shadow-sm h-100">
+        <!-- Medical Report Analysis -->
+        <div class="bg-white rounded-xl shadow-sm
+                    border border-gray-100 overflow-hidden">
 
-                <div class="card-body">
+            <!-- Card Header -->
+            <div class="px-6 py-5 border-b border-gray-100">
 
-                    <h3>Medical Report Analysis</h3>
+                <div class="flex items-center gap-4">
 
-                    <p class="text-muted">
-                        Upload a medical report to get a
-                        simple AI-generated explanation.
-                    </p>
+                    <div class="w-12 h-12 rounded-lg bg-purple-100
+                                flex items-center justify-center">
 
-                    <form
-                        id="reportAnalysisForm"
-                        enctype="multipart/form-data"
+                        <i class="fa-solid fa-file-medical
+                                  text-purple-600 text-xl"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2 class="text-xl font-semibold text-gray-800">
+                            Medical Report Analysis
+                        </h2>
+
+                        <p class="text-sm text-gray-500 mt-1">
+                            AI-assisted report explanation
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Card Body -->
+            <div class="p-6">
+
+                <p class="text-gray-500 mb-6">
+                    Upload a medical report image to receive
+                    a simple AI-generated educational explanation.
+                </p>
+
+
+                <form
+                    id="reportAnalysisForm"
+                    enctype="multipart/form-data"
+                >
+
+                    <input
+                        type="hidden"
+                        name="analysisType"
+                        value="report"
                     >
+
+
+                    <!-- File Upload -->
+                    <div
+                        id="reportDropZone"
+                        class="border-2 border-dashed
+                               border-gray-200 rounded-xl
+                               p-8 text-center
+                               hover:border-purple-400
+                               hover:bg-purple-50/30
+                               transition cursor-pointer"
+                    >
+
+                        <i class="fa-solid fa-file-arrow-up
+                                  text-purple-500 text-3xl mb-3"></i>
+
+                        <p class="font-medium text-gray-700">
+                            Upload medical report
+                        </p>
+
+                        <p class="text-sm text-gray-500 mt-1">
+                            Upload a clear image of your report
+                        </p>
+
+                        <label
+                            for="reportImage"
+                            class="inline-flex items-center gap-2
+                                   mt-4 px-4 py-2
+                                   bg-purple-600 text-white
+                                   rounded-lg
+                                   hover:bg-purple-700
+                                   transition cursor-pointer"
+                        >
+                            <i class="fa-solid fa-folder-open"></i>
+                            Choose Report
+                        </label>
 
                         <input
                             type="file"
                             name="healthImage"
                             id="reportImage"
-                            class="form-control mb-3"
+                            class="hidden"
                             accept="image/*"
                             required
                         >
 
-                        <input
-                            type="hidden"
-                            name="analysisType"
-                            value="report"
+                        <p
+                            id="reportFileName"
+                            class="text-sm text-gray-500 mt-3"
                         >
+                            No file selected
+                        </p>
 
-                        <button
-                            type="submit"
-                            class="btn btn-primary"
-                        >
-                            Analyze Report
-                        </button>
+                    </div>
 
-                    </form>
 
+                    <!-- Report Preview -->
                     <div
-                        id="reportResult"
-                        class="mt-4"
-                        style="display: none;"
-                    ></div>
+                        id="reportPreviewContainer"
+                        class="hidden mt-5"
+                    >
+
+                        <p class="text-sm font-medium text-gray-700 mb-2">
+                            Report Preview
+                        </p>
+
+                        <img
+                            id="reportPreview"
+                            src=""
+                            alt="Selected medical report preview"
+                            class="w-full max-h-64 object-contain
+                                   rounded-lg border border-gray-200
+                                   bg-gray-50"
+                        >
+
+                    </div>
+
+
+                    <!-- Analyze Button -->
+                    <button
+                        type="submit"
+                        id="reportAnalyzeButton"
+                        class="w-full mt-6
+                               inline-flex items-center
+                               justify-center gap-2
+                               px-5 py-3
+                               bg-purple-600 text-white
+                               rounded-lg
+                               hover:bg-purple-700
+                               transition shadow-sm"
+                    >
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        Analyze Report
+                    </button>
+
+                </form>
+
+
+                <!-- Result -->
+                <div
+                    id="reportResult"
+                    class="hidden mt-6"
+                ></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- How It Works -->
+    <div class="bg-white rounded-xl shadow-sm
+                border border-gray-100 p-6 mt-6">
+
+        <div class="flex items-center gap-3 mb-6">
+
+            <div class="w-10 h-10 rounded-lg bg-blue-100
+                        flex items-center justify-center">
+
+                <i class="fa-solid fa-circle-info text-blue-600"></i>
+
+            </div>
+
+            <div>
+
+                <h2 class="text-xl font-semibold text-gray-800">
+                    How AI Health Analysis Works
+                </h2>
+
+                <p class="text-sm text-gray-500">
+                    Simple three-step process
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+
+            <!-- Step 1 -->
+            <div class="flex gap-4">
+
+                <div class="w-10 h-10 shrink-0 rounded-full
+                            bg-blue-100 text-blue-600
+                            flex items-center justify-center
+                            font-bold">
+                    1
+                </div>
+
+                <div>
+
+                    <h3 class="font-semibold text-gray-800">
+                        Upload
+                    </h3>
+
+                    <p class="text-sm text-gray-500 mt-1">
+                        Upload a clear health image or medical report.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Step 2 -->
+            <div class="flex gap-4">
+
+                <div class="w-10 h-10 shrink-0 rounded-full
+                            bg-purple-100 text-purple-600
+                            flex items-center justify-center
+                            font-bold">
+                    2
+                </div>
+
+                <div>
+
+                    <h3 class="font-semibold text-gray-800">
+                        AI Analysis
+                    </h3>
+
+                    <p class="text-sm text-gray-500 mt-1">
+                        CareOn sends the image to the AI service
+                        for analysis.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Step 3 -->
+            <div class="flex gap-4">
+
+                <div class="w-10 h-10 shrink-0 rounded-full
+                            bg-green-100 text-green-600
+                            flex items-center justify-center
+                            font-bold">
+                    3
+                </div>
+
+                <div>
+
+                    <h3 class="font-semibold text-gray-800">
+                        Understand
+                    </h3>
+
+                    <p class="text-sm text-gray-500 mt-1">
+                        Review the AI-generated educational explanation.
+                    </p>
 
                 </div>
 
@@ -123,15 +468,37 @@
     </div>
 
 
-    <!-- Disclaimer -->
+    <!-- Medical Disclaimer -->
+    <div class="mt-6 p-5 rounded-xl
+                bg-amber-50 border border-amber-200">
 
-    <div class="alert alert-warning mt-4">
+        <div class="flex items-start gap-4">
 
-        <strong>Important:</strong>
+            <div class="w-10 h-10 shrink-0 rounded-lg
+                        bg-amber-100
+                        flex items-center justify-center">
 
-        AI-generated information is for educational purposes only.
-        It is not a medical diagnosis and should not replace advice
-        from a qualified healthcare professional.
+                <i class="fa-solid fa-triangle-exclamation
+                          text-amber-600"></i>
+
+            </div>
+
+            <div>
+
+                <h3 class="font-semibold text-amber-800">
+                    Important Medical Disclaimer
+                </h3>
+
+                <p class="text-sm text-amber-700 mt-1">
+                    AI-generated information is provided for
+                    educational purposes only. It is not a medical
+                    diagnosis and should not replace advice from a
+                    qualified healthcare professional.
+                </p>
+
+            </div>
+
+        </div>
 
     </div>
 
@@ -140,66 +507,225 @@
 
 <script>
 
-async function analyzeHealthImage(form, resultElement) {
-
-    const formData = new FormData(form);
-
-    resultElement.style.display = "block";
-    resultElement.innerHTML = `
-        <div class="alert alert-info">
-            Analyzing image... Please wait.
-        </div>
-    `;
-
-    try {
-
-        const response = await fetch("/analyze-health-image", {
-            method: "POST",
-            body: formData
-        });
-
-        const data = await response.json();
-
-        if (!response.ok || !data.success) {
-
-            throw new Error(
-                data.error || "Unable to analyze the image."
-            );
-
-        }
-
-        resultElement.innerHTML = `
-            <div class="alert alert-light border">
-                <h5>AI Analysis</h5>
-                <div style="white-space: pre-wrap;">
-                    ${escapeHtml(data.analysis)}
-                </div>
-            </div>
-        `;
-
-    } catch (error) {
-
-        console.error(error);
-
-        resultElement.innerHTML = `
-            <div class="alert alert-danger">
-                ${escapeHtml(error.message)}
-            </div>
-        `;
-    }
-}
-
-
 function escapeHtml(text) {
 
     const div = document.createElement("div");
 
-    div.textContent = text;
+    div.textContent = text ?? "";
 
     return div.innerHTML;
 }
 
 
+/**
+ * Display selected file information and preview.
+ */
+function setupFilePreview(inputId, fileNameId, previewId, containerId) {
+
+    const input = document.getElementById(inputId);
+    const fileName = document.getElementById(fileNameId);
+    const preview = document.getElementById(previewId);
+    const previewContainer =
+        document.getElementById(containerId);
+
+    input.addEventListener("change", () => {
+
+        const file = input.files[0];
+
+        if (!file) {
+
+            fileName.textContent = "No file selected";
+
+            previewContainer.classList.add("hidden");
+
+            return;
+        }
+
+        fileName.textContent = file.name;
+
+        if (file.type.startsWith("image/")) {
+
+            const reader = new FileReader();
+
+            reader.onload = (event) => {
+
+                preview.src = event.target.result;
+
+                previewContainer.classList.remove("hidden");
+
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+    });
+}
+
+
+/**
+ * Analyze uploaded health image/report.
+ */
+async function analyzeHealthImage(
+    form,
+    resultElement,
+    button
+) {
+
+    const formData = new FormData(form);
+
+    resultElement.classList.remove("hidden");
+
+    resultElement.innerHTML = `
+        <div class="p-4 rounded-lg
+                    bg-blue-50 border border-blue-200
+                    text-blue-700">
+
+            <div class="flex items-center gap-3">
+
+                <i class="fa-solid fa-spinner fa-spin"></i>
+
+                <div>
+                    <p class="font-medium">
+                        Analyzing...
+                    </p>
+
+                    <p class="text-sm mt-1">
+                        Please wait while CareOn processes your file.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    `;
+
+
+    button.disabled = true;
+
+    const originalButtonContent =
+        button.innerHTML;
+
+    button.innerHTML = `
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        Analyzing...
+    `;
+
+
+    try {
+
+        const response = await fetch(
+            "/analyze-health-image",
+            {
+                method: "POST",
+                body: formData
+            }
+        );
+
+
+        const data = await response.json();
+
+
+        if (!response.ok || !data.success) {
+
+            throw new Error(
+                data.error ||
+                data.message ||
+                "Unable to analyze the file."
+            );
+
+        }
+
+
+        resultElement.innerHTML = `
+            <div class="p-5 rounded-xl
+                        bg-green-50
+                        border border-green-200">
+
+                <div class="flex items-center gap-3 mb-4">
+
+                    <div class="w-9 h-9 rounded-lg
+                                bg-green-100
+                                flex items-center justify-center">
+
+                        <i class="fa-solid fa-circle-check
+                                  text-green-600"></i>
+
+                    </div>
+
+                    <h3 class="font-semibold text-green-800">
+                        AI Analysis
+                    </h3>
+
+                </div>
+
+                <div class="text-sm text-gray-700
+                            leading-6 whitespace-pre-wrap">
+                    ${escapeHtml(data.analysis)}
+                </div>
+
+            </div>
+        `;
+
+
+    } catch (error) {
+
+        console.error("AI analysis error:", error);
+
+
+        resultElement.innerHTML = `
+            <div class="p-5 rounded-xl
+                        bg-red-50
+                        border border-red-200">
+
+                <div class="flex items-center gap-3 mb-2">
+
+                    <i class="fa-solid fa-circle-exclamation
+                              text-red-600"></i>
+
+                    <h3 class="font-semibold text-red-800">
+                        Analysis Failed
+                    </h3>
+
+                </div>
+
+                <p class="text-sm text-red-700">
+                    ${escapeHtml(error.message)}
+                </p>
+
+            </div>
+        `;
+
+    } finally {
+
+        button.disabled = false;
+
+        button.innerHTML =
+            originalButtonContent;
+
+    }
+
+}
+
+
+/* Skin image preview */
+setupFilePreview(
+    "skinImage",
+    "skinFileName",
+    "skinPreview",
+    "skinPreviewContainer"
+);
+
+
+/* Medical report preview */
+setupFilePreview(
+    "reportImage",
+    "reportFileName",
+    "reportPreview",
+    "reportPreviewContainer"
+);
+
+
+/* Skin analysis */
 document
     .getElementById("skinAnalysisForm")
     .addEventListener("submit", function(event) {
@@ -208,12 +734,14 @@ document
 
         analyzeHealthImage(
             this,
-            document.getElementById("skinResult")
+            document.getElementById("skinResult"),
+            document.getElementById("skinAnalyzeButton")
         );
 
     });
 
 
+/* Medical report analysis */
 document
     .getElementById("reportAnalysisForm")
     .addEventListener("submit", function(event) {
@@ -222,7 +750,8 @@ document
 
         analyzeHealthImage(
             this,
-            document.getElementById("reportResult")
+            document.getElementById("reportResult"),
+            document.getElementById("reportAnalyzeButton")
         );
 
     });
