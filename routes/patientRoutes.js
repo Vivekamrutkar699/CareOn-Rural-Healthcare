@@ -1,27 +1,41 @@
 const express = require("express");
 const patientService = require("../services/patientService");
+const { patientValidationRules } = require("../validators/patientValidator");
+const validateRequest = require("../middleware/validation");
 
 const router = express.Router();
 
 // Create patient
-router.post("/", async (req, res) => {
-    try {
-        const patient = await patientService.createPatient(req.body);
+router.post(
+    "/",
+    patientValidationRules,
+    validateRequest,
+    async (req, res) => {
+        try {
+            const patient = await patientService.createPatient(req.body);
 
-        res.status(201).json({
-            success: true,
-            message: "Patient created successfully",
-            data: patient,
-        });
-    } catch (error) {
-        console.error("Create patient error:", error);
+            res.status(201).json({
+                success: true,
+                message: "Patient created successfully",
+                data: patient,
+            });
+        } catch (error) {
+    console.error("Create patient error:", error);
 
-        res.status(500).json({
+    if (error.code === "P2002") {
+        return res.status(409).json({
             success: false,
-            message: "Failed to create patient",
+            message: "Patient ID already exists",
         });
     }
-});
+
+    res.status(500).json({
+        success: false,
+        message: "Failed to create patient",
+    });
+}
+    }
+);
 
 // Get all patients
 router.get("/", async (req, res) => {
