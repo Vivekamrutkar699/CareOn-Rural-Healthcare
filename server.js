@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const expressLayouts = require("express-ejs-layouts");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -10,6 +11,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // Static files
 app.use(express.static(path.join(__dirname, "public")));
@@ -23,10 +25,12 @@ app.set("layout", "layout/boilerplate");
 
 // Routes
 const appRoutes = require("./routes/appRoutes");
+const authRoutes = require("./routes/authRoutes");
 const patientRoutes = require("./routes/patientRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 
 app.use("/", appRoutes);
+app.use("/", authRoutes);
 app.use("/api/patients", patientRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 

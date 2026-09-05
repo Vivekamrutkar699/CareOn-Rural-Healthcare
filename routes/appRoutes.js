@@ -1,3 +1,8 @@
+const {
+    requireAuth,
+    requireRole,
+} = require("../middleware/authMiddleware");
+
 const express = require("express");
 const multer = require("multer");
 const { analyzeHealthImage } = require("../services/geminiService");
@@ -30,59 +35,91 @@ router.get("/", (req, res) => {
 // -----------------------------
 // Dashboard
 // -----------------------------
+// Accessible by all authenticated users
 
-router.get("/dashboard", (req, res) => {
+router.get("/dashboard", requireAuth, (req, res) => {
     res.render("dashboard", {
         title: "CareOn Dashboard",
+        user: req.user,
     });
 });
 
 // -----------------------------
 // Patients
 // -----------------------------
+// Accessible only by Doctors and Admins
 
-router.get("/patients", (req, res) => {
-    res.render("patients", {
-        title: "Patient Management",
-    });
-});
+router.get(
+    "/patients",
+    requireAuth,
+    requireRole("DOCTOR", "ADMIN"),
+    (req, res) => {
+        res.render("patients", {
+            title: "Patient Management",
+            user: req.user,
+        });
+    }
+);
 
 // -----------------------------
 // Telemedicine
 // -----------------------------
+// Accessible by Patients and Doctors
 
-router.get("/telemedicine", (req, res) => {
-    res.render("telemedicine", {
-        title: "Telemedicine",
-    });
-});
+router.get(
+    "/telemedicine",
+    requireAuth,
+    requireRole("PATIENT", "DOCTOR"),
+    (req, res) => {
+        res.render("telemedicine", {
+            title: "Telemedicine",
+            user: req.user,
+        });
+    }
+);
 
 // -----------------------------
 // AI Health Assistant
 // -----------------------------
+// Accessible by Patients and Doctors
 
-router.get("/ai-assistant", (req, res) => {
-    res.render("ai-assistant", {
-        title: "AI Health Assistant",
-    });
-});
+router.get(
+    "/ai-assistant",
+    requireAuth,
+    requireRole("PATIENT", "DOCTOR"),
+    (req, res) => {
+        res.render("ai-assistant", {
+            title: "AI Health Assistant",
+            user: req.user,
+        });
+    }
+);
 
 // -----------------------------
-// Medicine Management
+// Medicine & Community Health
 // -----------------------------
+// Accessible by all authenticated users
 
-router.get("/medicine", (req, res) => {
-    res.render("medicine", {
-        title: "Medicine Management",
-    });
-});
+router.get(
+    "/medicine",
+    requireAuth,
+    (req, res) => {
+        res.render("medicine", {
+            title: "Medicine & Community Health",
+            user: req.user,
+        });
+    }
+);
 
 // -----------------------------
 // AI Health Image Analysis
 // -----------------------------
+// Only Patients and Doctors can use AI analysis
 
 router.post(
     "/analyze-health-image",
+    requireAuth,
+    requireRole("PATIENT", "DOCTOR"),
     upload.single("healthImage"),
     async (req, res) => {
         try {
