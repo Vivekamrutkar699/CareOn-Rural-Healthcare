@@ -78,6 +78,15 @@ describe("CareOn App Routes", () => {
         expect(res.headers.location).toBe("/login");
     });
 
+    test("GET /dashboard should redirect request with invalid/expired JWT to /login", async () => {
+        const res = await request(app)
+            .get("/dashboard")
+            .set("Cookie", ["careon_token=invalid-token"]);
+
+        expect(res.statusCode).toBe(302);
+        expect(res.headers.location).toBe("/login");
+    });
+
     test("GET /patients should return patients page for DOCTOR", async () => {
         const res = await request(app)
             .get("/patients")

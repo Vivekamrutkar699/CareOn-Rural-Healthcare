@@ -87,101 +87,144 @@ describe("Patient API Authorization & Endpoints", () => {
     });
 
     describe("Unauthenticated requests (requireAuth)", () => {
-        test("GET /api/patients is rejected and redirected to /login", async () => {
+        test("GET /api/patients is rejected with 401 JSON", async () => {
             const res = await request(app).get("/api/patients");
 
-            expect(res.statusCode).toBe(302);
-            expect(res.headers.location).toBe("/login");
+            expect(res.statusCode).toBe(401);
+            expect(res.body).toEqual({
+                success: false,
+                message: "Authentication required",
+            });
             expect(patientService.getAllPatients).not.toHaveBeenCalled();
         });
 
-        test("POST /api/patients is rejected and redirected to /login", async () => {
+        test("POST /api/patients is rejected with 401 JSON", async () => {
             const res = await request(app)
                 .post("/api/patients")
                 .send(validPatientPayload);
 
-            expect(res.statusCode).toBe(302);
-            expect(res.headers.location).toBe("/login");
+            expect(res.statusCode).toBe(401);
+            expect(res.body).toEqual({
+                success: false,
+                message: "Authentication required",
+            });
             expect(patientService.createPatient).not.toHaveBeenCalled();
         });
 
-        test("GET /api/patients/:id is rejected and redirected to /login", async () => {
+        test("GET /api/patients/:id is rejected with 401 JSON", async () => {
             const res = await request(app).get("/api/patients/pat-uuid-1");
 
-            expect(res.statusCode).toBe(302);
-            expect(res.headers.location).toBe("/login");
+            expect(res.statusCode).toBe(401);
+            expect(res.body).toEqual({
+                success: false,
+                message: "Authentication required",
+            });
             expect(patientService.getPatientById).not.toHaveBeenCalled();
         });
 
-        test("PUT /api/patients/:id is rejected and redirected to /login", async () => {
+        test("PUT /api/patients/:id is rejected with 401 JSON", async () => {
             const res = await request(app)
                 .put("/api/patients/pat-uuid-1")
                 .send(validPatientPayload);
 
-            expect(res.statusCode).toBe(302);
-            expect(res.headers.location).toBe("/login");
+            expect(res.statusCode).toBe(401);
+            expect(res.body).toEqual({
+                success: false,
+                message: "Authentication required",
+            });
             expect(patientService.updatePatient).not.toHaveBeenCalled();
         });
 
-        test("DELETE /api/patients/:id is rejected and redirected to /login", async () => {
+        test("DELETE /api/patients/:id is rejected with 401 JSON", async () => {
             const res = await request(app).delete("/api/patients/pat-uuid-1");
 
-            expect(res.statusCode).toBe(302);
-            expect(res.headers.location).toBe("/login");
+            expect(res.statusCode).toBe(401);
+            expect(res.body).toEqual({
+                success: false,
+                message: "Authentication required",
+            });
             expect(patientService.deletePatient).not.toHaveBeenCalled();
+        });
+
+        test("GET /api/patients with invalid/expired JWT returns 401 JSON", async () => {
+            const res = await request(app)
+                .get("/api/patients")
+                .set("Cookie", ["careon_token=invalid-token"]);
+
+            expect(res.statusCode).toBe(401);
+            expect(res.body).toEqual({
+                success: false,
+                message: "Authentication required",
+            });
+            expect(patientService.getAllPatients).not.toHaveBeenCalled();
         });
     });
 
-    describe("PATIENT role requests (requireRole denies PATIENT with 403)", () => {
-        test("GET /api/patients is denied with 403", async () => {
+    describe("PATIENT role requests (requireRole denies PATIENT with 403 JSON)", () => {
+        test("GET /api/patients is denied with 403 JSON", async () => {
             const res = await request(app)
                 .get("/api/patients")
                 .set("Cookie", patientCookie);
 
             expect(res.statusCode).toBe(403);
-            expect(res.text).toContain("Access Denied");
+            expect(res.body).toEqual({
+                success: false,
+                message: "Access denied",
+            });
             expect(patientService.getAllPatients).not.toHaveBeenCalled();
         });
 
-        test("POST /api/patients is denied with 403", async () => {
+        test("POST /api/patients is denied with 403 JSON", async () => {
             const res = await request(app)
                 .post("/api/patients")
                 .set("Cookie", patientCookie)
                 .send(validPatientPayload);
 
             expect(res.statusCode).toBe(403);
-            expect(res.text).toContain("Access Denied");
+            expect(res.body).toEqual({
+                success: false,
+                message: "Access denied",
+            });
             expect(patientService.createPatient).not.toHaveBeenCalled();
         });
 
-        test("GET /api/patients/:id is denied with 403", async () => {
+        test("GET /api/patients/:id is denied with 403 JSON", async () => {
             const res = await request(app)
                 .get("/api/patients/pat-uuid-1")
                 .set("Cookie", patientCookie);
 
             expect(res.statusCode).toBe(403);
-            expect(res.text).toContain("Access Denied");
+            expect(res.body).toEqual({
+                success: false,
+                message: "Access denied",
+            });
             expect(patientService.getPatientById).not.toHaveBeenCalled();
         });
 
-        test("PUT /api/patients/:id is denied with 403", async () => {
+        test("PUT /api/patients/:id is denied with 403 JSON", async () => {
             const res = await request(app)
                 .put("/api/patients/pat-uuid-1")
                 .set("Cookie", patientCookie)
                 .send(validPatientPayload);
 
             expect(res.statusCode).toBe(403);
-            expect(res.text).toContain("Access Denied");
+            expect(res.body).toEqual({
+                success: false,
+                message: "Access denied",
+            });
             expect(patientService.updatePatient).not.toHaveBeenCalled();
         });
 
-        test("DELETE /api/patients/:id is denied with 403", async () => {
+        test("DELETE /api/patients/:id is denied with 403 JSON", async () => {
             const res = await request(app)
                 .delete("/api/patients/pat-uuid-1")
                 .set("Cookie", patientCookie);
 
             expect(res.statusCode).toBe(403);
-            expect(res.text).toContain("Access Denied");
+            expect(res.body).toEqual({
+                success: false,
+                message: "Access denied",
+            });
             expect(patientService.deletePatient).not.toHaveBeenCalled();
         });
     });

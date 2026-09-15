@@ -61,21 +61,27 @@ describe("Dashboard Statistics API Authorization (GET /api/dashboard/stats)", ()
         dashboardService.getDashboardStats.mockResolvedValue(mockStats);
     });
 
-    test("unauthenticated request is rejected and redirected to /login", async () => {
+    test("unauthenticated request is rejected with 401 JSON", async () => {
         const res = await request(app).get("/api/dashboard/stats");
 
-        expect(res.statusCode).toBe(302);
-        expect(res.headers.location).toBe("/login");
+        expect(res.statusCode).toBe(401);
+        expect(res.body).toEqual({
+            success: false,
+            message: "Authentication required",
+        });
         expect(dashboardService.getDashboardStats).not.toHaveBeenCalled();
     });
 
-    test("PATIENT request is rejected with 403 Access Denied", async () => {
+    test("PATIENT request is rejected with 403 JSON", async () => {
         const res = await request(app)
             .get("/api/dashboard/stats")
             .set("Cookie", patientCookie);
 
         expect(res.statusCode).toBe(403);
-        expect(res.text).toContain("Access Denied");
+        expect(res.body).toEqual({
+            success: false,
+            message: "Access denied",
+        });
         expect(dashboardService.getDashboardStats).not.toHaveBeenCalled();
     });
 
