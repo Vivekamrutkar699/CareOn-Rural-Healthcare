@@ -7,8 +7,13 @@ jest.mock("../lib/prisma", () => ({
     },
 }));
 
+jest.mock("../services/geminiService", () => ({
+    analyzeHealthImage: jest.fn().mockResolvedValue("Mocked AI analysis result"),
+}));
+
 const jwt = require("jsonwebtoken");
 const prisma = require("../lib/prisma");
+const { analyzeHealthImage } = require("../services/geminiService");
 const app = require("../server");
 
 describe("CareOn App Routes", () => {
@@ -122,5 +127,82 @@ describe("CareOn App Routes", () => {
         const res = await request(app).get("/this-route-does-not-exist");
 
         expect(res.statusCode).toBe(404);
+    });
+
+    describe("POST /analyze-health-image (MIME Validation & Authorization)", () => {
+        test("rejects upload with invalid image MIME type", async () => {
+            const res = await request(app)
+                .post("/analyze-health-image")
+                .set("Cookie", patientCookie)
+                .field("analysisType", "skin")
+                .attach("healthImage", Buffer.from("plain text content"), {
+                    filename: "test.txt",
+                    contentType: "text/plain",
+                });
+
+            expect(res.statusCode).toBe(400);
+            expect(res.body.success).toBe(false);
+            expect(res.body.error).toContain("Only JPEG, PNG, and WebP images are allowed");
+            expect(analyzeHealthImage).not.toHaveBeenCalled();
+        });
+
+        test("accepts upload with valid image/png MIME type", async () => {
+            const res = await request(app)
+                .post("/analyze-health-image")
+                .set("Cookie", patientCookie)
+                .field("analysisType", "skin")
+                .attach("healthImage", Buffer.from("fake-png-bytes"), {
+                    filename: "skin.png",
+                    contentType: "image/png",
+                });
+
+            expect(res.statusCode).toBe(200);
+            expect(res.body.success).toBe(true);
+            expect(res.body.analysis).toBe("Mocked AI analysis result");
+            expect(analyzeHealthImage).toHaveBeenCalled();
+        });
+
+        test("accepts upload with valid image/jpeg MIME type", async () => {
+            const res = await request(app)
+                .post("/analyze-health-image")
+                .set("Cookie", doctorCookie)
+                .field("analysisType", "report")
+                .attach("healthImage", Buffer.from("fake-jpeg-bytes"), {
+                    filename: "report.jpg",
+                    contentType: "image/jpeg",
+                });
+
+            expect(res.statusCode).toBe(200);
+            expect(res.body.success).toBe(true);
+            expect(res.body.analysis).toBe("Mocked AI analysis result");
+        });
+
+        test("rejects unauthenticated upload request", async () => {
+            const res = await request(app)
+                .post("/analyze-health-image")
+                .field("analysisType", "skin")
+                .attach("healthImage", Buffer.from("fake-png-bytes"), {
+                    filename: "skin.png",
+                    contentType: "image/png",
+                });
+
+            expect(res.statusCode).toBe(302);
+            expect(res.headers.location).toBe("/login");
+        });
+
+        test("rejects unauthorized ADMIN role with 403", async () => {
+            const adminCookie = ["careon_token=admin-token"];
+            const res = await request(app)
+                .post("/analyze-health-image")
+                .set("Cookie", adminCookie)
+                .field("analysisType", "skin")
+                .attach("healthImage", Buffer.from("fake-png-bytes"), {
+                    filename: "skin.png",
+                    contentType: "image/png",
+                });
+
+            expect(res.statusCode).toBe(403);
+            expect(res.text).toContain("Access Denied");
+        });
     });
 });

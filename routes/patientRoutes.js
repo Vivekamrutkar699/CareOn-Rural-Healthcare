@@ -103,6 +103,8 @@ router.put(
     "/:id",
     requireAuth,
     requireRole("DOCTOR", "ADMIN"),
+    patientValidationRules,
+    validateRequest,
     async (req, res) => {
         try {
             const patient = await patientService.updatePatient(

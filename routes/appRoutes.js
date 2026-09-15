@@ -13,6 +13,12 @@ const router = express.Router();
 // File Upload Configuration
 // -----------------------------
 
+const ALLOWED_IMAGE_MIME_TYPES = [
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+];
+
 const storage = multer.memoryStorage();
 
 const upload = multer({
@@ -20,7 +26,39 @@ const upload = multer({
     limits: {
         fileSize: 5 * 1024 * 1024, // 5 MB
     },
+    fileFilter: (req, file, cb) => {
+        if (ALLOWED_IMAGE_MIME_TYPES.includes(file.mimetype)) {
+            cb(null, true);
+        } else {
+            cb(
+                new Error(
+                    "Invalid file type. Only JPEG, PNG, and WebP images are allowed."
+                )
+            );
+        }
+    },
 });
+
+function handleImageUpload(req, res, next) {
+    upload.single("healthImage")(req, res, (err) => {
+        if (err) {
+            if (err.code === "LIMIT_FILE_SIZE") {
+                return res.status(400).json({
+                    success: false,
+                    error: "File size exceeds 5 MB limit.",
+                });
+            }
+
+            return res.status(400).json({
+                success: false,
+                error: err.message || "Invalid image upload.",
+            });
+        }
+
+        next();
+    });
+}
+
 
 // -----------------------------
 // Home
@@ -120,7 +158,7 @@ router.post(
     "/analyze-health-image",
     requireAuth,
     requireRole("PATIENT", "DOCTOR"),
-    upload.single("healthImage"),
+    handleImageUpload,
     async (req, res) => {
         try {
             // -----------------------------

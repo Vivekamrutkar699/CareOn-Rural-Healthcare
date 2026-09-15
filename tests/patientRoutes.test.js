@@ -237,6 +237,24 @@ describe("Patient API Authorization & Endpoints", () => {
             );
         });
 
+        test("PUT /api/patients/:id rejects invalid data with 400", async () => {
+            const invalidPayload = {
+                firstName: "",
+                phone: "123",
+            };
+
+            const res = await request(app)
+                .put("/api/patients/pat-uuid-1")
+                .set("Cookie", doctorCookie)
+                .send(invalidPayload);
+
+            expect(res.statusCode).toBe(400);
+            expect(res.body.success).toBe(false);
+            expect(res.body.message).toBe("Validation failed");
+            expect(res.body.errors).toBeDefined();
+            expect(patientService.updatePatient).not.toHaveBeenCalled();
+        });
+
         test("DELETE /api/patients/:id is allowed and deletes patient", async () => {
             const res = await request(app)
                 .delete("/api/patients/pat-uuid-1")
@@ -271,6 +289,21 @@ describe("Patient API Authorization & Endpoints", () => {
             expect(res.body.success).toBe(true);
             expect(res.body.message).toBe("Patient created successfully");
             expect(patientService.createPatient).toHaveBeenCalledTimes(1);
+        });
+
+        test("PUT /api/patients/:id is allowed for ADMIN", async () => {
+            const res = await request(app)
+                .put("/api/patients/pat-uuid-1")
+                .set("Cookie", adminCookie)
+                .send(validPatientPayload);
+
+            expect(res.statusCode).toBe(200);
+            expect(res.body.success).toBe(true);
+            expect(res.body.message).toBe("Patient updated successfully");
+            expect(patientService.updatePatient).toHaveBeenCalledWith(
+                "pat-uuid-1",
+                expect.any(Object)
+            );
         });
 
         test("DELETE /api/patients/:id is allowed for ADMIN", async () => {
