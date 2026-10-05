@@ -30,6 +30,12 @@ Thumbs.db
 .vscode/
 .idea/
 
+# AI coding tools
+.agents/
+.claude/
+.cursor/
+.devin/
+
 # Build
 dist/
 build/
