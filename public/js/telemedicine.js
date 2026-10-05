@@ -4,12 +4,580 @@ document.addEventListener("DOMContentLoaded", () => {
     // CONFIGURATION
     // =========================================================
 
-    // Video call becomes active 10 minutes before appointment.
     const CALL_WINDOW_MINUTES_BEFORE = 10;
-
-    // Video call remains available for 60 minutes after appointment.
     const CALL_WINDOW_MINUTES_AFTER = 60;
 
+    // =========================================================
+    // SOCKET.IO
+    // =========================================================
+
+    const socket = io();
+
+    // =========================================================
+    // WEBRTC VARIABLES & QUEUES
+    // =========================================================
+
+    let localStream = null;
+    let peerConnection = null;
+    let remoteStream = null;
+    let localVideoElement = null;
+    let remoteVideoElement = null;
+
+    // Asynchronous signaling state & queue management
+    let isInitializingMedia = false;
+    let localMediaPromise = null;
+    let pendingOffer = null;
+    let iceCandidateQueue = [];
+
+    // =========================================================
+    // WEBRTC CONFIGURATION
+    // =========================================================
+
+    const rtcConfiguration = {
+        iceServers: [
+            {
+                urls: "stun:stun.l.google.com:19302",
+            },
+        ],
+    };
+
+    // =========================================================
+    // ROOM
+    // =========================================================
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const roomId = urlParams.get("room");
+
+    // =========================================================
+    // SOCKET CONNECTION
+    // =========================================================
+
+    socket.on("connect", async () => {
+        console.log("Connected to CareOn signaling server:", socket.id);
+
+        if (roomId) {
+            socket.emit("join-room", roomId);
+            console.log("Joining telemedicine room:", roomId);
+            await initializeLocalMedia();
+        }
+    });
+
+    socket.on("disconnect", () => {
+        console.log("Disconnected from CareOn signaling server");
+        updateConnectionStatus("disconnected");
+        closePeerConnection();
+    });
+
+    // =========================================================
+    // USER JOINED (Existing peer initiates offer)
+    // =========================================================
+
+    socket.on("user-joined", async (data) => {
+        console.log("Another user joined the room:", data.socketId);
+
+        // If local media is not ready yet, wait for it before creating offer
+        if (!localStream) {
+            console.log("Local media not ready yet. Waiting before creating WebRTC offer...");
+            try {
+                await initializeLocalMedia();
+            } catch (error) {
+                console.error("Cannot create offer because local media failed:", error);
+                return;
+            }
+        }
+
+        // Avoid duplicate negotiation if peerConnection is already negotiating
+        if (peerConnection && peerConnection.signalingState !== "stable" && peerConnection.signalingState !== "closed") {
+            console.log("Peer connection is already negotiating; skipping duplicate offer.");
+            return;
+        }
+
+        const pc = await createPeerConnection();
+
+        try {
+            const offer = await pc.createOffer();
+            await pc.setLocalDescription(offer);
+            console.log("Sending WebRTC offer...");
+            socket.emit("offer", {
+                roomId: roomId,
+                offer: offer,
+            });
+        } catch (error) {
+            console.error("Error creating WebRTC offer:", error);
+        }
+    });
+
+    // =========================================================
+    // RECEIVE OFFER (New peer receives offer, queues if media acquiring)
+    // =========================================================
+
+    socket.on("offer", async (data) => {
+        console.log("WebRTC offer received.");
+
+        if (!data || !data.offer) {
+            return;
+        }
+
+        // If local media is not ready yet, queue the offer to avoid race condition
+        if (!localStream) {
+            console.log("Local media is not ready yet. Queuing offer until camera/mic completes...");
+            pendingOffer = data;
+
+            if (!isInitializingMedia) {
+                initializeLocalMedia().catch((err) => {
+                    console.error("Failed to initialize media for pending offer:", err);
+                });
+            }
+            return;
+        }
+
+        // Local media is ready, handle offer immediately
+        await handleOffer(data);
+    });
+
+    // =========================================================
+    // HANDLE WEBRTC OFFER
+    // =========================================================
+
+    async function handleOffer(data) {
+        console.log("Handling WebRTC offer from peer:", data.socketId);
+
+        const pc = await createPeerConnection();
+
+        try {
+            await pc.setRemoteDescription(new RTCSessionDescription(data.offer));
+            console.log("Remote description set successfully (offer).");
+
+            // Process any ICE candidates that arrived before remoteDescription was set
+            await processQueuedCandidates();
+
+            // Create and set local answer
+            const answer = await pc.createAnswer();
+            await pc.setLocalDescription(answer);
+
+            console.log("Sending WebRTC answer...");
+            socket.emit("answer", {
+                roomId: roomId,
+                answer: answer,
+            });
+        } catch (error) {
+            console.error("Error handling WebRTC offer:", error);
+        }
+    }
+
+    // =========================================================
+    // RECEIVE ANSWER
+    // =========================================================
+
+    socket.on("answer", async (data) => {
+        console.log("WebRTC answer received.");
+
+        if (!peerConnection) {
+            console.error("Peer connection does not exist for received answer.");
+            return;
+        }
+
+        if (!data || !data.answer) {
+            return;
+        }
+
+        try {
+            await peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));
+            console.log("Remote description set successfully (answer).");
+
+            // Process any ICE candidates that arrived before answer arrived
+            await processQueuedCandidates();
+        } catch (error) {
+            console.error("Error setting remote description from answer:", error);
+        }
+    });
+
+    // =========================================================
+    // RECEIVE ICE CANDIDATE
+    // =========================================================
+
+    socket.on("ice-candidate", async (data) => {
+        console.log("ICE candidate received.");
+
+        if (!data || !data.candidate) {
+            return;
+        }
+
+        // Queue candidate if remote description is not set yet
+        if (!peerConnection || !peerConnection.remoteDescription || !peerConnection.remoteDescription.type) {
+            console.log("Queuing ICE candidate (peerConnection or remoteDescription not ready).");
+            iceCandidateQueue.push(data.candidate);
+            return;
+        }
+
+        try {
+            await peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
+            console.log("ICE candidate added.");
+        } catch (error) {
+            console.error("Error adding ICE candidate:", error);
+        }
+    });
+
+    // =========================================================
+    // PROCESS QUEUED ICE CANDIDATES
+    // =========================================================
+
+    async function processQueuedCandidates() {
+        if (!peerConnection || !peerConnection.remoteDescription) {
+            return;
+        }
+
+        if (iceCandidateQueue.length === 0) {
+            return;
+        }
+
+        console.log(`Processing ${iceCandidateQueue.length} queued ICE candidate(s)...`);
+        const candidates = [...iceCandidateQueue];
+        iceCandidateQueue = [];
+
+        for (const candidate of candidates) {
+            try {
+                await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+                console.log("Queued ICE candidate added successfully.");
+            } catch (error) {
+                console.error("Error adding queued ICE candidate:", error);
+            }
+        }
+    }
+
+    // =========================================================
+    // INITIALIZE LOCAL MEDIA
+    // =========================================================
+
+    async function initializeLocalMedia() {
+        if (localStream) {
+            return localStream;
+        }
+
+        if (isInitializingMedia && localMediaPromise) {
+            return localMediaPromise;
+        }
+
+        isInitializingMedia = true;
+
+        localMediaPromise = (async () => {
+            console.log("Requesting camera and microphone access...");
+
+            try {
+                localStream = await navigator.mediaDevices.getUserMedia({
+                    video: true,
+                    audio: true,
+                });
+
+                console.log("Camera and microphone access granted.");
+                createVideoInterface();
+
+                if (localVideoElement) {
+                    localVideoElement.srcObject = localStream;
+                }
+
+                console.log("Local video stream initialized.");
+
+                // If a peer connection already exists, attach local tracks now
+                if (peerConnection) {
+                    localStream.getTracks().forEach((track) => {
+                        const senders = peerConnection.getSenders ? peerConnection.getSenders() : [];
+                        const alreadyAdded = senders.some((s) => s.track === track);
+                        if (!alreadyAdded) {
+                            peerConnection.addTrack(track, localStream);
+                        }
+                    });
+                }
+
+                // If an offer arrived while waiting for media, process it now
+                if (pendingOffer) {
+                    console.log("Processing pending WebRTC offer now that local media is ready...");
+                    const offerToProcess = pendingOffer;
+                    pendingOffer = null;
+                    await handleOffer(offerToProcess);
+                }
+
+                return localStream;
+            } catch (error) {
+                console.error("Unable to access camera or microphone:", error);
+                pendingOffer = null;
+                showMediaError(error);
+                throw error;
+            } finally {
+                isInitializingMedia = false;
+            }
+        })();
+
+        return localMediaPromise;
+    }
+
+    // =========================================================
+    // CREATE PEER CONNECTION
+    // =========================================================
+
+    async function createPeerConnection() {
+        if (peerConnection && peerConnection.connectionState !== "closed") {
+            return peerConnection;
+        }
+
+        console.log("Creating RTCPeerConnection...");
+        peerConnection = new RTCPeerConnection(rtcConfiguration);
+
+        // Add local tracks
+        if (localStream) {
+            localStream.getTracks().forEach((track) => {
+                const senders = peerConnection.getSenders ? peerConnection.getSenders() : [];
+                const alreadyAdded = senders.some((s) => s.track === track);
+                if (!alreadyAdded) {
+                    peerConnection.addTrack(track, localStream);
+                }
+            });
+        }
+
+        // Create remote MediaStream
+        remoteStream = new MediaStream();
+        remoteVideoElement = document.getElementById("remote-video");
+        if (remoteVideoElement) {
+            remoteVideoElement.srcObject = remoteStream;
+        }
+
+        // Receive remote tracks
+        peerConnection.ontrack = (event) => {
+            console.log("Remote media track received:", event.track ? event.track.kind : "unknown");
+
+            if (event.streams && event.streams[0]) {
+                event.streams[0].getTracks().forEach((track) => {
+                    if (!remoteStream.getTracks().includes(track)) {
+                        remoteStream.addTrack(track);
+                    }
+                });
+            } else if (event.track) {
+                if (!remoteStream.getTracks().includes(event.track)) {
+                    remoteStream.addTrack(event.track);
+                }
+            }
+
+            if (!remoteVideoElement) {
+                remoteVideoElement = document.getElementById("remote-video");
+            }
+            if (remoteVideoElement && remoteVideoElement.srcObject !== remoteStream) {
+                remoteVideoElement.srcObject = remoteStream;
+            }
+
+            updateConnectionStatus("connected");
+        };
+
+        // ICE candidates
+        peerConnection.onicecandidate = (event) => {
+            if (event.candidate) {
+                console.log("Sending ICE candidate...");
+                socket.emit("ice-candidate", {
+                    roomId: roomId,
+                    candidate: event.candidate,
+                });
+            }
+        };
+
+        // Connection state
+        peerConnection.onconnectionstatechange = () => {
+            console.log("WebRTC connection state:", peerConnection.connectionState);
+            updateConnectionStatus(peerConnection.connectionState);
+
+            if (peerConnection.connectionState === "failed") {
+                console.error("WebRTC connection failed.");
+            }
+        };
+
+        // ICE connection state
+        peerConnection.oniceconnectionstatechange = () => {
+            console.log("ICE connection state:", peerConnection.iceConnectionState);
+        };
+
+        return peerConnection;
+    }
+
+    // =========================================================
+    // CLOSE PEER CONNECTION
+    // =========================================================
+
+    function closePeerConnection() {
+        if (peerConnection) {
+            peerConnection.onicecandidate = null;
+            peerConnection.ontrack = null;
+            peerConnection.onconnectionstatechange = null;
+            peerConnection.oniceconnectionstatechange = null;
+            peerConnection.close();
+            peerConnection = null;
+        }
+
+        iceCandidateQueue = [];
+        pendingOffer = null;
+        console.log("Peer connection closed and queues cleared.");
+    }
+
+    // =========================================================
+    // VIDEO INTERFACE
+    // =========================================================
+
+    function createVideoInterface() {
+        if (document.getElementById("webrtc-video-section")) {
+            return;
+        }
+
+        const section = document.createElement("section");
+        section.id = "webrtc-video-section";
+        section.className = "mb-8";
+        section.innerHTML = `
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 md:p-8">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-green-100 text-green-600 flex items-center justify-center">
+                            <i class="fa-solid fa-video"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-gray-800">Video Consultation</h2>
+                            <p class="text-sm text-gray-500 mt-1">Peer-to-peer video consultation</p>
+                        </div>
+                    </div>
+                    <span id="webrtc-status" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-yellow-50 text-yellow-600 text-sm font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-yellow-500"></span>
+                        Waiting for participant
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Remote video -->
+                    <div class="relative bg-gray-900 rounded-2xl overflow-hidden aspect-video">
+                        <video id="remote-video" autoplay playsinline class="w-full h-full object-cover"></video>
+                        <div class="absolute top-3 left-3 px-3 py-1.5 rounded-lg bg-black/60 text-white text-sm font-medium">Remote</div>
+                        <div id="remote-placeholder" class="absolute inset-0 flex items-center justify-center text-gray-400">
+                            <div class="text-center">
+                                <i class="fa-solid fa-user text-4xl mb-3"></i>
+                                <p>Waiting for participant...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Local video -->
+                    <div class="relative bg-gray-900 rounded-2xl overflow-hidden aspect-video">
+                        <video id="local-video" autoplay playsinline muted class="w-full h-full object-cover"></video>
+                        <div class="absolute top-3 left-3 px-3 py-1.5 rounded-lg bg-black/60 text-white text-sm font-medium">You</div>
+                    </div>
+                </div>
+
+                <div class="mt-5 flex items-start gap-3 p-4 rounded-xl bg-blue-50 border border-blue-100">
+                    <i class="fa-solid fa-circle-info text-blue-500 mt-0.5"></i>
+                    <p class="text-sm text-blue-700 leading-relaxed">
+                        CareOn uses WebRTC for peer-to-peer audio and video communication. Socket.IO is used only for signaling.
+                    </p>
+                </div>
+            </div>
+        `;
+
+        const mainContainer = document.querySelector(".max-w-6xl");
+        if (mainContainer) {
+            mainContainer.prepend(section);
+        } else {
+            document.body.prepend(section);
+        }
+
+        localVideoElement = document.getElementById("local-video");
+        remoteVideoElement = document.getElementById("remote-video");
+    }
+
+    // =========================================================
+    // CONNECTION STATUS
+    // =========================================================
+
+    function updateConnectionStatus(status) {
+        const statusElement = document.getElementById("webrtc-status");
+        if (!statusElement) {
+            return;
+        }
+
+        const labels = {
+            connected: "Connected",
+            connecting: "Connecting...",
+            new: "Connecting...",
+            checking: "Checking connection...",
+            disconnected: "Disconnected",
+            failed: "Connection failed",
+            closed: "Call ended",
+        };
+
+        const label = labels[status] || "Waiting for participant";
+        statusElement.innerHTML = `
+            <span class="w-2 h-2 rounded-full bg-current"></span>
+            ${label}
+        `;
+
+        if (status === "connected") {
+            const placeholder = document.getElementById("remote-placeholder");
+            if (placeholder) {
+                placeholder.style.display = "none";
+            }
+        }
+    }
+
+    // =========================================================
+    // MEDIA ERROR
+    // =========================================================
+
+    function showMediaError(error) {
+        let message = "Unable to access your camera or microphone.";
+
+        if (error.name === "NotAllowedError") {
+            message = "Camera and microphone permission was denied. Please allow access and try again.";
+        } else if (error.name === "NotFoundError") {
+            message = "No camera or microphone was found.";
+        } else if (error.name === "NotReadableError") {
+            message = "Your camera or microphone may already be in use.";
+        }
+
+        const errorElement = document.createElement("div");
+        errorElement.className = "fixed bottom-5 right-5 z-50 max-w-md bg-red-50 border border-red-200 rounded-xl p-4 shadow-lg";
+        errorElement.innerHTML = `
+            <div class="flex items-start gap-3">
+                <i class="fa-solid fa-triangle-exclamation text-red-500"></i>
+                <div>
+                    <p class="font-semibold text-red-800">Camera/Microphone Error</p>
+                    <p class="text-sm text-red-700 mt-1">${escapeHtml(message)}</p>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(errorElement);
+        setTimeout(() => {
+            errorElement.remove();
+        }, 6000);
+    }
+
+    // =========================================================
+    // STOP MEDIA
+    // =========================================================
+
+    function stopLocalMedia() {
+        if (!localStream) {
+            return;
+        }
+
+        localStream.getTracks().forEach((track) => {
+            track.stop();
+        });
+        localStream = null;
+        console.log("Local media stopped.");
+    }
+
+    // =========================================================
+    // CLEANUP
+    // =========================================================
+
+    window.addEventListener("beforeunload", () => {
+        if (peerConnection) {
+            peerConnection.close();
+        }
+        stopLocalMedia();
+    });
 
     // =========================================================
     // MODAL ELEMENTS
