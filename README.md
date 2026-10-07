@@ -139,6 +139,44 @@ The CareOn platform brings together core healthcare services into a unified web 
 
 ---
 
+## 🗃️ Database ER Diagram
+
+The PostgreSQL database is managed with Prisma. The current schema contains two independent tables; there are no foreign-key relationships between `User` and `Patient`.
+
+```mermaid
+erDiagram
+    User {
+        TEXT id PK
+        TEXT name
+        TEXT email UK
+        TEXT passwordHash
+        UserRole role
+        TIMESTAMP createdAt
+        TIMESTAMP updatedAt
+    }
+
+    Patient {
+        TEXT id PK
+        TEXT patientId UK
+        TEXT firstName
+        TEXT lastName
+        TIMESTAMP dateOfBirth
+        TEXT gender
+        TEXT phone
+        TEXT email
+        TEXT address
+        TEXT bloodGroup
+        TIMESTAMP createdAt
+        TIMESTAMP updatedAt
+    }
+```
+
+- `UserRole` is an enum with `PATIENT`, `DOCTOR`, and `ADMIN`; `User.role` defaults to `PATIENT`.
+- `Patient.dateOfBirth`, `gender`, `email`, `address`, and `bloodGroup` are optional.
+- Appointment and telemedicine session data are not currently stored in these database tables.
+
+---
+
 ## 🛠️ Technology Stack
 
 | Category | Technology | Purpose |
